@@ -67,8 +67,8 @@
     <string name="setting_random_offset">Random Offset</string>
     <string name="setting_random_offset_summary">Only effective when using historical locations</string>
     <string name="setting_random_offset_default">10.0</string>
-    <string name="setting_lat_max_offset">Maximum Longitude Offset Distance (m)</string>
-    <string name="setting_lon_max_offset">Maximum Latitude Offset Distance (m)</string>
+    <string name="setting_lat_max_offset">Maximum Latitude Offset Distance (m)</string>
+    <string name="setting_lon_max_offset">Maximum Longitude Offset Distance (m)</string>
     <!-- Log parameters -->
     <string name="setting_group_log">Log</string>
     <string name="setting_log_off">Disable Log</string>
