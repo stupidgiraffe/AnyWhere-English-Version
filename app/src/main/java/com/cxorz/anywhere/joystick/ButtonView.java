@@ -104,7 +104,7 @@ public class ButtonView extends LinearLayout {
                 }
             }
         });
-        /* 默认 */
+        /* Default */
         isCenter = true;
         btnCenter.setColorFilter(getResources().getColor(R.color.colorAccent, mContext.getTheme()));
 
@@ -434,7 +434,7 @@ public class ButtonView extends LinearLayout {
 
     public interface ButtonViewClickListener {
         /**
-         * 点击的角度信息
+         * Click angle information
          */
         void clickAngleInfo(boolean auto, double angle, double r);
     }

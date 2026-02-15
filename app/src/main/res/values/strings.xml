@@ -1,123 +1,123 @@
 <resources>
     <string name="app_name">AnyWhere</string>
-    <string name="app_settings">设置</string>
-    <string name="app_history">历史记录</string>
+    <string name="app_settings">Settings</string>
+    <string name="app_history">History</string>
     <string name="app_author">Cxorz</string>
     <string name="app_email">zcsexp@gmail.com</string>
-    <string name="app_statement">仅供学习使用，否则后果自负！</string>
-    <string name="app_service_tips">AnyWhere 服务正在运行中</string>
-    <string name="app_agreement">用户协议</string>
-    <string name="app_agreement_content">"1. 本软件专为学习 Android 开发使用，不会收集任何用户数据。"
-    "严禁利用本软件侵犯他人隐私权或者用于游戏牟利，如软件使用者不能遵守此规定， 请立即删除。"
-    "对于因用户使用本软件而造成自身或他人隐私泄露等任何不良后果，均由用户自行承担，软件作者不负任何责任。\n"
-    "2. 用户不得对本软件产品进行反向工程（reverse engineer）、反向编译（decompile）或反汇编（disassemble）， 违者属于侵权行为，并自行承担由此产生的不利后果。\n"
-    "3. 软件保证不含任何病毒，木马，等破坏用户数据的恶意代码，但是由于本软件产品可以通过网络等途径下载、传播，对于从非软件作者指定站点下载的本软件产品软件作者无法保证该软件是否感染计算机病毒、是否隐藏有伪装的特洛伊木马程序或者黑客软件，不承担由此引起的直接和间接损害责任。\n"
-    "4. 软件会不断更新，以便及时为用户提供新功能和修正软件中的BUG。 同时软件作者保证本软件在升级过程中也不含有任何旨在破坏用户计算机数据的恶意代码。\n"
-    "5. 由于用户计算机软硬件环境的差异性和复杂性，本软件所提供的各项功能并不能保证在任何情况下都能正常执行或达到用户所期望的结果。 用户使用本软件所产生的一切后果，软件作者不承担任何责任。\n"
-    "6. 如果用户自行安装本软件，即表明用户信任软件作者，自愿选择安装本软件，并接受本协议所有条款。 如果用户不接受本协议，请立即删除。\n"
+    <string name="app_statement">For educational use only, otherwise you bear all consequences!</string>
+    <string name="app_service_tips">AnyWhere service is running</string>
+    <string name="app_agreement">User Agreement</string>
+    <string name="app_agreement_content">"1. This software is designed for learning Android development and will not collect any user data. "
+    "It is strictly prohibited to use this software to invade others\' privacy or for gaming profit. If users cannot comply with this regulation, please delete it immediately. "
+    "Users shall bear all adverse consequences caused by using this software that result in their own or others\' privacy leaks, and the software author shall not be liable for any responsibility.\n"
+    "2. Users shall not reverse engineer, decompile, or disassemble this software product. Violators are committing infringement and shall bear the adverse consequences arising therefrom.\n"
+    "3. The software guarantees that it does not contain any viruses, trojans, or other malicious code that damages user data. However, since this software product can be downloaded and distributed through the network, the software author cannot guarantee whether the software downloaded from non-author-designated sites is infected with computer viruses or contains disguised Trojan horse programs or hacker software, and shall not be liable for direct and indirect damages caused thereby.\n"
+    "4. The software will be continuously updated to provide users with new features and fix bugs in the software promptly. The software author guarantees that the software does not contain any malicious code designed to damage user computer data during the upgrade process.\n"
+    "5. Due to the diversity and complexity of user computer software and hardware environments, the functions provided by this software cannot be guaranteed to execute normally or achieve the results expected by users in all cases. The software author shall not be liable for any consequences arising from users\' use of this software.\n"
+    "6. If users install this software on their own, it means that users trust the software author, voluntarily choose to install this software, and accept all terms of this agreement. If users do not accept this agreement, please delete it immediately.\n"
     </string>
-    <string name="app_privacy">隐私政策</string>
-    <string name="app_privacy_content">"1. 本软件专为学习 Android 开发使用，不会收集任何用户数据。\n"
-    "2. 用户不得对本软件产品进行反向工程（reverse engineer）、反向编译（decompile）或反汇编（disassemble）， 违者属于侵权行为，并自行承担由此产生的不利后果。\n"
-    "3. 软件保证不含任何病毒，木马，等破坏用户数据的恶意代码，但是由于本软件产品可以通过网络等途径下载、传播，对于从非软件作者指定站点下载的本软件产品软件作者无法保证该软件是否感染计算机病毒、是否隐藏有伪装的特洛伊木马程序或者黑客软件，不承担由此引起的直接和间接损害责任。\n"
-    "4. 软件会不断更新，以便及时为用户提供新功能和修正软件中的BUG。 同时软件作者保证本软件在升级过程中也不含有任何旨在破坏用户计算机数据的恶意代码。\n"
-    "5. 由于用户计算机软硬件环境的差异性和复杂性，本软件所提供的各项功能并不能保证在任何情况下都能正常执行或达到用户所期望的结果。 用户使用本软件所产生的一切后果，软件作者不承担任何责任。\n"
-    "6. 如果用户自行安装本软件，即表明用户信任软件作者，自愿选择安装本软件，并接受本协议所有条款。 如果用户不接受本协议，请立即删除。\n"
+    <string name="app_privacy">Privacy Policy</string>
+    <string name="app_privacy_content">"1. This software is designed for learning Android development and will not collect any user data.\n"
+    "2. Users shall not reverse engineer, decompile, or disassemble this software product. Violators are committing infringement and shall bear the adverse consequences arising therefrom.\n"
+    "3. The software guarantees that it does not contain any viruses, trojans, or other malicious code that damages user data. However, since this software product can be downloaded and distributed through the network, the software author cannot guarantee whether the software downloaded from non-author-designated sites is infected with computer viruses or contains disguised Trojan horse programs or hacker software, and shall not be liable for direct and indirect damages caused thereby.\n"
+    "4. The software will be continuously updated to provide users with new features and fix bugs in the software promptly. The software author guarantees that the software does not contain any malicious code designed to damage user computer data during the upgrade process.\n"
+    "5. Due to the diversity and complexity of user computer software and hardware environments, the functions provided by this software cannot be guaranteed to execute normally or achieve the results expected by users in all cases. The software author shall not be liable for any consequences arising from users\' use of this software.\n"
+    "6. If users install this software on their own, it means that users trust the software author, voluntarily choose to install this software, and accept all terms of this agreement. If users do not accept this agreement, please delete it immediately.\n"
     </string>
-    <string name="app_agreement_privacy">进入应用即表示您已阅读并同意《用户协议》和《隐私政策》</string>
-    <string name="app_error_gps">定位不可用，请检查 GPS 是否开启</string>
-    <string name="app_error_network">网络不可用，请检查网络连接</string>
-    <string name="app_error_permission">权限不足，请授予相关权限</string>
-    <string name="app_error_input">输入有误，请检查输入是否合法</string>
-    <string name="app_error_input_null">输入不能为空，请重新输入内容</string>
-    <string name="app_error_search">查找失败，请检查网络或定位</string>
-    <string name="app_error_location">请先选择位置</string>
-    <string name="app_error_param">非法参数</string>
-    <string name="app_error_protocol">请先阅读并接收用户协议</string>
-    <string name="app_error_username">用户名不合法</string>
-    <string name="app_error_code">注册码不能为空</string>
-    <string name="app_error_longitude">经度超出限制!\n取值：-180.0 ~ 180.0</string>
-    <string name="app_error_latitude">纬度超出限制!\n取值：-90.0 ~ 90.0</string>
-    <string name="app_search_null">没有匹配结果，请重新搜索</string>
-    <string name="app_search_tips">请输入查找内容</string>
-    <string name="app_location_ok">位置已传送</string>
-    <string name="app_location_copy">位置已复制到剪切板</string>
-    <string name="app_location_save">位置已保存</string>
+    <string name="app_agreement_privacy">By entering the app, you agree to the User Agreement and Privacy Policy</string>
+    <string name="app_error_gps">Location unavailable, please check if GPS is enabled</string>
+    <string name="app_error_network">Network unavailable, please check network connection</string>
+    <string name="app_error_permission">Insufficient permissions, please grant necessary permissions</string>
+    <string name="app_error_input">Input error, please check if input is valid</string>
+    <string name="app_error_input_null">Input cannot be empty, please re-enter content</string>
+    <string name="app_error_search">Search failed, please check network or location</string>
+    <string name="app_error_location">Please select a location first</string>
+    <string name="app_error_param">Invalid parameter</string>
+    <string name="app_error_protocol">Please read and accept the user agreement first</string>
+    <string name="app_error_username">Username is invalid</string>
+    <string name="app_error_code">Registration code cannot be empty</string>
+    <string name="app_error_longitude">Longitude out of range!\nValid range: -180.0 ~ 180.0</string>
+    <string name="app_error_latitude">Latitude out of range!\nValid range: -90.0 ~ 90.0</string>
+    <string name="app_search_null">No matching results, please search again</string>
+    <string name="app_search_tips">Please enter search content</string>
+    <string name="app_location_ok">Location transmitted</string>
+    <string name="app_location_copy">Location copied to clipboard</string>
+    <string name="app_location_save">Location saved</string>
 
-    <!-- 欢迎页 -->
-    <string name="welcome_btn_txt">进入应用</string>
-    <string name="app_btn_agree">同意并继续</string>
-    <string name="app_btn_disagree">不同意</string>
+    <!-- Welcome Page -->
+    <string name="welcome_btn_txt">Enter App</string>
+    <string name="app_btn_agree">Agree and Continue</string>
+    <string name="app_btn_disagree">Disagree</string>
 
-    <!-- 移动相关参数 -->
-    <string name="setting_group_move">移动</string>
-    <string name="setting_joystick_state">开启摇杆</string>
-    <string name="setting_joystick_type">摇杆类型</string>
-    <string name="setting_walk">步行速度(米/秒)</string>
+    <!-- Movement Parameters -->
+    <string name="setting_group_move">Movement</string>
+    <string name="setting_joystick_state">Enable Joystick</string>
+    <string name="setting_joystick_type">Joystick Type</string>
+    <string name="setting_walk">Walking Speed (m/s)</string>
     <string name="setting_walk_default">1.2</string>
-    <string name="setting_run">跑步速度(米/秒)</string>
+    <string name="setting_run">Running Speed (m/s)</string>
     <string name="setting_run_default">3.6</string>
-    <string name="setting_bike">驾驶速度(米/秒)</string>
+    <string name="setting_bike">Driving Speed (m/s)</string>
     <string name="setting_bike_default">10.0</string>
-    <string name="setting_altitude">海拔高度(米)</string>
+    <string name="setting_altitude">Altitude (m)</string>
     <string name="setting_altitude_default">5.0</string>
 
-    <!-- 位置偏移相关参数 -->
-    <string name="setting_group_location_offset">位置偏移</string>
-    <string name="setting_random_offset">随机偏移</string>
-    <string name="setting_random_offset_summary">仅在使用历史位置时生效</string>
+    <!-- Location Offset Parameters -->
+    <string name="setting_group_location_offset">Location Offset</string>
+    <string name="setting_random_offset">Random Offset</string>
+    <string name="setting_random_offset_summary">Only effective when using historical locations</string>
     <string name="setting_random_offset_default">10.0</string>
-    <string name="setting_lat_max_offset">经度最大偏移距离(米)</string>
-    <string name="setting_lon_max_offset">纬度最大偏移距离(米)</string>
-    <!-- 记录相关参数 -->
-    <string name="setting_group_log">记录</string>
-    <string name="setting_log_off">关闭日志</string>
-    <string name="setting_history_expiration">历史记录有效期(天)</string>
-    <!-- 关于相关参数 -->
-    <string name="setting_group_about">关于</string>
-    <string name="setting_version">版本号</string>
-    <string name="setting_author">开发者</string>
+    <string name="setting_lat_max_offset">Max Longitude Offset Distance (m)</string>
+    <string name="setting_lon_max_offset">Max Latitude Offset Distance (m)</string>
+    <!-- Log Parameters -->
+    <string name="setting_group_log">Logs</string>
+    <string name="setting_log_off">Disable Logging</string>
+    <string name="setting_history_expiration">History Retention (days)</string>
+    <!-- About Parameters -->
+    <string name="setting_group_about">About</string>
+    <string name="setting_version">Version</string>
+    <string name="setting_author">Developer</string>
 
-    <!-- 历史记录页面 -->
+    <!-- History Page -->
     <string name="history_expiration">7</string>
-    <string name="history_location_default_name">地图位置</string>
-    <string name="history_idle">暂无历史记录</string>
-    <string name="history_delete_ok">删除成功！</string>
-    <string name="history_delete_error">删除记录失败</string>
-    <string name="history_error_location">定位失败，请手动选取定位点</string>
-    <string name="history_error_search">未搜索到指定内容</string>
+    <string name="history_location_default_name">Map Location</string>
+    <string name="history_idle">No history records</string>
+    <string name="history_delete_ok">Deleted successfully!</string>
+    <string name="history_delete_error">Failed to delete record</string>
+    <string name="history_error_location">Location failed, please manually select location point</string>
+    <string name="history_error_search">Specified content not found</string>
 
-    <!-- 通知栏 -->
-    <string name="note_show">显示摇杆</string>
-    <string name="note_hide">隐藏摇杆</string>
-    <!-- 摇杆 -->
-    <string name="joystick_map_tips">搜索或点击地图位置</string>
-    <string name="joystick_history_tips">搜索或点击历史位置</string>
-    <string name="joystick_history">历史记录</string>
-    <string name="joystick_map">地图</string>
-    <string name="joystick_move">移动</string>
-    <string name="joystick_walk">步行</string>
-    <string name="joystick_run">跑步</string>
-    <string name="joystick_bike">自行车</string>
-    <!-- 导航页 -->
-    <string name="nav_drawer_open">打开导航菜单</string>
-    <string name="nav_drawer_close">关闭导航菜单</string>
-    <string name="nav_menu_history">历史记录</string>
-    <string name="nav_menu_settings">设置</string>
-    <string name="nav_menu_theme">深色模式</string>
-    <string name="menu_location_input">经纬度输入</string>
+    <!-- Notification -->
+    <string name="note_show">Show Joystick</string>
+    <string name="note_hide">Hide Joystick</string>
+    <!-- Joystick -->
+    <string name="joystick_map_tips">Search or click map location</string>
+    <string name="joystick_history_tips">Search or click history location</string>
+    <string name="joystick_history">History</string>
+    <string name="joystick_map">Map</string>
+    <string name="joystick_move">Move</string>
+    <string name="joystick_walk">Walk</string>
+    <string name="joystick_run">Run</string>
+    <string name="joystick_bike">Bike</string>
+    <!-- Navigation -->
+    <string name="nav_drawer_open">Open navigation menu</string>
+    <string name="nav_drawer_close">Close navigation menu</string>
+    <string name="nav_menu_history">History</string>
+    <string name="nav_menu_settings">Settings</string>
+    <string name="nav_menu_theme">Dark Mode</string>
+    <string name="menu_location_input">Coordinate Input</string>
 
-    <!-- 主界面 -->
-    <string name="label_longitude">经度</string>
-    <string name="label_latitude">纬度</string>
-    <string name="input_position_ok">传送</string>
-    <string name="input_position_cancel">取消</string>
-    <string name="input_button">输入位置</string>
-    <string name="cur_position">返回当前位置</string>
-    <string name="zoom_in">放大</string>
-    <string name="zoom_out">缩小</string>
-    <string name="input_ip_hint">IP地址</string>
-    <string name="btn_get_ip_location">从IP获取</string>
-    <string name="ip_location_success">成功获取IP位置</string>
-    <string name="ip_location_error">IP位置获取失败</string>
+    <!-- Main Interface -->
+    <string name="label_longitude">Longitude</string>
+    <string name="label_latitude">Latitude</string>
+    <string name="input_position_ok">Teleport</string>
+    <string name="input_position_cancel">Cancel</string>
+    <string name="input_button">Input Location</string>
+    <string name="cur_position">Return to Current Location</string>
+    <string name="zoom_in">Zoom In</string>
+    <string name="zoom_out">Zoom Out</string>
+    <string name="input_ip_hint">IP Address</string>
+    <string name="btn_get_ip_location">Get from IP</string>
+    <string name="ip_location_success">IP location obtained successfully</string>
+    <string name="ip_location_error">Failed to get IP location</string>
 </resources>
