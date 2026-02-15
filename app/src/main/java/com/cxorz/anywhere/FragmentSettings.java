@@ -42,7 +42,7 @@ public class FragmentSettings extends PreferenceFragmentCompat {
 
         ListPreference pfJoystick = findPreference("setting_joystick_type");
         if (pfJoystick != null) {
-            // 使用自定义 SummaryProvider
+            // Use custom SummaryProvider
             pfJoystick.setSummaryProvider((Preference.SummaryProvider<ListPreference>) preference -> Objects.requireNonNull(preference.getEntry()));
             pfJoystick.setOnPreferenceChangeListener((preference, newValue) -> !newValue.toString().trim().isEmpty());
         }
@@ -86,7 +86,7 @@ public class FragmentSettings extends PreferenceFragmentCompat {
         EditTextPreference pfPosHisValid = findPreference("setting_history_expiration");
         setupDecimalEditTextPreference(pfPosHisValid);
 
-        // 设置版本号
+        // Set version number
         String verName;
         verName = GoUtils.getVersionName(FragmentSettings.this.getContext());
         Preference pfVersion = findPreference("setting_version");
