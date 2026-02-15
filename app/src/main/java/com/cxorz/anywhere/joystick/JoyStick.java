@@ -684,12 +684,12 @@ public class JoyStick extends View {
         });
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {// Triggered when search button is clicked
+            public boolean onQueryTextSubmit(String query) {
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {// Triggered when search content changes
+            public boolean onQueryTextChange(String newText) {
                 if (TextUtils.isEmpty(newText)) {
                     showHistory(mAllRecord);
                 } else {
