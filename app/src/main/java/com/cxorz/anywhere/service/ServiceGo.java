@@ -42,7 +42,7 @@ import java.util.Random;
 
 @SuppressWarnings("deprecation")
 public class ServiceGo extends Service implements SensorEventListener {
-    // 定位相关变量
+    // Location related variables
     public static final double DEFAULT_LAT = 36.667662;
     public static final double DEFAULT_LNG = 117.027707;
     public static final double DEFAULT_ALT = 5.0D;
@@ -58,19 +58,19 @@ public class ServiceGo extends Service implements SensorEventListener {
     private HandlerThread mLocHandlerThread;
     private Handler mLocHandler;
     private boolean isStop = false;
-    // 通知栏消息
+    // Notification bar message
     private static final int SERVICE_GO_NOTE_ID = 1;
     private static final String SERVICE_GO_NOTE_ACTION_JOYSTICK_SHOW = "ShowJoyStick";
     private static final String SERVICE_GO_NOTE_ACTION_JOYSTICK_HIDE = "HideJoyStick";
     private static final String SERVICE_GO_NOTE_CHANNEL_ID = "SERVICE_GO_NOTE";
     private static final String SERVICE_GO_NOTE_CHANNEL_NAME = "SERVICE_GO_NOTE";
     private NoteActionReceiver mActReceiver;
-    // 摇杆相关
+    // Joystick related
     private JoyStick mJoyStick;
 
     private final ServiceGoBinder mBinder = new ServiceGoBinder();
 
-    // 传感器相关 (真实朝向)
+    // Sensor related (real orientation)
     private SensorManager mSensorManager;
     private Sensor mSensorAcc;
     private Sensor mSensorMag;
@@ -80,7 +80,7 @@ public class ServiceGo extends Service implements SensorEventListener {
     private final float[] mDirectionValues = new float[3];
     private float mRealBearing = 0.0f;
 
-    // 随机噪点生成器
+    // Random noise generator
     private final Random mRandom = new Random();
 
     @Override
@@ -178,7 +178,7 @@ public class ServiceGo extends Service implements SensorEventListener {
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // 不需要处理
+        // No need to handle
     }
 
     private void initNotification() {
@@ -195,7 +195,7 @@ public class ServiceGo extends Service implements SensorEventListener {
             notificationManager.createNotificationChannel(mChannel);
         }
 
-        //准备intent
+        //Prepare intent
         Intent clickIntent = new Intent(this, MainActivity.class);
         PendingIntent clickPI = PendingIntent.getActivity(this, 1, clickIntent, PendingIntent.FLAG_IMMUTABLE);
         Intent showIntent = new Intent(SERVICE_GO_NOTE_ACTION_JOYSTICK_SHOW);
@@ -241,7 +241,7 @@ public class ServiceGo extends Service implements SensorEventListener {
             }
         });
 
-        // 根据设置决定是否显示摇杆
+        // Decide whether to show joystick based on settings
         android.content.SharedPreferences sp = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this);
         boolean isJoyStickEnabled = sp.getBoolean("setting_joystick_state", false);
         if (isJoyStickEnabled) {
@@ -322,12 +322,12 @@ public class ServiceGo extends Service implements SensorEventListener {
             XLog.d("ServiceGo: setLocationGPS - RealBearing: " + mRealBearing);
 
             Location loc = new Location(LocationManager.GPS_PROVIDER);
-            loc.setAccuracy(Criteria.ACCURACY_FINE);    // 设定此位置的估计水平精度，以米为单位。
-            loc.setAltitude(mCurAlt + noiseAlt);        // 设置高度
-            loc.setBearing(mRealBearing);               // 使用真实传感器方向
-            loc.setLatitude(mCurLat + noiseLat);        // 纬度 + 噪点
-            loc.setLongitude(mCurLng + noiseLng);       // 经度 + 噪点
-            loc.setTime(System.currentTimeMillis());    // 本地时间
+            loc.setAccuracy(Criteria.ACCURACY_FINE);    // Set accuracy
+            loc.setAltitude(mCurAlt + noiseAlt);        // Set altitude
+            loc.setBearing(mRealBearing);               // Set bearing
+            loc.setLatitude(mCurLat + noiseLat);        // Set latitude
+            loc.setLongitude(mCurLng + noiseLng);       // Set longitude
+            loc.setTime(System.currentTimeMillis());    // Set time
             loc.setSpeed((float) mSpeed);
             loc.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
             Bundle bundle = new Bundle();
@@ -375,18 +375,18 @@ public class ServiceGo extends Service implements SensorEventListener {
 
     private void setLocationNetwork() {
         try {
-            // 添加随机噪点
+            // Add random noise
             double noiseLat = (mRandom.nextDouble() - 0.5) * 0.00004;
             double noiseLng = (mRandom.nextDouble() - 0.5) * 0.00004;
             double noiseAlt = (mRandom.nextDouble() - 0.5) * 1.0;
 
             Location loc = new Location(LocationManager.NETWORK_PROVIDER);
-            loc.setAccuracy(Criteria.ACCURACY_COARSE);  // 设定此位置的估计水平精度，以米为单位。
+            loc.setAccuracy(Criteria.ACCURACY_COARSE);  // Set the estimated horizontal accuracy of this location, in meters
             loc.setAltitude(mCurAlt + noiseAlt);
-            loc.setBearing(mRealBearing);               // 使用真实传感器方向
+            loc.setBearing(mRealBearing);               // Use real sensor orientation
             loc.setLatitude(mCurLat + noiseLat);
             loc.setLongitude(mCurLng + noiseLng);
-            loc.setTime(System.currentTimeMillis());    // 本地时间
+            loc.setTime(System.currentTimeMillis());    // Local time
             loc.setSpeed((float) mSpeed);
             loc.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
 
@@ -429,7 +429,7 @@ public class ServiceGo extends Service implements SensorEventListener {
 
     private void setLocationFused() {
         try {
-            // 添加随机噪点
+            // Add random noise
             double noiseLat = (mRandom.nextDouble() - 0.5) * 0.00004;
             double noiseLng = (mRandom.nextDouble() - 0.5) * 0.00004;
             double noiseAlt = (mRandom.nextDouble() - 0.5) * 1.0;
