@@ -153,8 +153,8 @@ public class HistoryActivity extends BaseActivity {
                 item.put(KEY_ID, Integer.toString(ID));
                 item.put(KEY_LOCATION, Location);
                 item.put(KEY_TIME, GoUtils.timeStamp2Date(Long.toString(TimeStamp)));
-                item.put(KEY_LNG_LAT_WGS, "[Lng:" + doubleLongitude + " Lat:" + doubleLatitude + "]");
-                item.put(KEY_LNG_LAT_CUSTOM, "[Lng:" + doubleBDLongitude + " Lat:" + doubleBDLatitude + "]");
+                item.put(KEY_LNG_LAT_WGS, "[Lng: " + doubleLongitude + " Lat: " + doubleLatitude + "]");
+                item.put(KEY_LNG_LAT_CUSTOM, "[Lng: " + doubleBDLongitude + " Lat: " + doubleBDLatitude + "]");
                 data.add(item);
             }
             cursor.close();

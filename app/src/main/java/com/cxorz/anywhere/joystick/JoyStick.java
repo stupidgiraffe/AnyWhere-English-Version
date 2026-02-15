@@ -793,8 +793,8 @@ public class JoyStick extends View {
                 item.put(HistoryActivity.KEY_ID, Integer.toString(ID));
                 item.put(HistoryActivity.KEY_LOCATION, Location);
                 item.put(HistoryActivity.KEY_TIME, GoUtils.timeStamp2Date(Long.toString(TimeStamp)));
-                item.put(HistoryActivity.KEY_LNG_LAT_WGS, "[Longitude:" + doubleLongitude + " Latitude:" + doubleLatitude + "]");
-                item.put(HistoryActivity.KEY_LNG_LAT_CUSTOM, "[Longitude:" + doubleBDLongitude + " Latitude:" + doubleBDLatitude + "]");
+                item.put(HistoryActivity.KEY_LNG_LAT_WGS, "[Longitude: " + doubleLongitude + " Latitude: " + doubleLatitude + "]");
+                item.put(HistoryActivity.KEY_LNG_LAT_CUSTOM, "[Longitude: " + doubleBDLongitude + " Latitude: " + doubleBDLatitude + "]");
                 mAllRecord.add(item);
             }
             cursor.close();
