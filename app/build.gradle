@@ -66,7 +66,7 @@ android {
         }
     }
 
-    // 要存取 secret value 必須要使用到一個 BuildScript 的類別，默认会从 local.properties 中获取
+    // To access secret values, a BuildScript class must be used, defaults to reading from local.properties
     buildFeatures {
         buildConfig = true
     }
@@ -96,7 +96,7 @@ android {
         includeInBundle = false
     }
 
-    // 指定输出的可执行程序的名字
+    // Specify the output executable program name
     applicationVariants.configureEach { variant ->
         variant.outputs.configureEach { output ->
             def outputFile = output.outputFile
@@ -115,7 +115,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    // AppCompat 1.5.1 开始显式依赖于 Lifecycle 2.5.1 和 SavedState 1.2.0
+    // AppCompat 1.5.1 explicitly depends on Lifecycle 2.5.1 and SavedState 1.2.0
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2'
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

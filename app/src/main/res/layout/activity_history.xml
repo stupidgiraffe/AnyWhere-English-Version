@@ -22,7 +22,7 @@
             android:layout_marginTop="5dp"
             android:iconifiedByDefault="true"
             android:theme="@style/ToolbarTheme"
-            android:queryHint="请输入搜索内容" />
+            android:queryHint="Please enter search content" />
     </LinearLayout>
 
     <TextView

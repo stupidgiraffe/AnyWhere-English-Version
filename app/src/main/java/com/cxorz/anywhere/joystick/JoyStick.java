@@ -667,29 +667,29 @@ public class JoyStick extends View {
         mSearchView.setOnSearchClickListener(v -> {
             tips.setVisibility(GONE);
 
-            // 特殊处理：这里让搜索框获取焦点，以显示输入法
+            // Special handling: allow search box to gain focus to show input method
             mWindowParamCurrent.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
             mWindowManager.updateViewLayout(mHistoryLayout, mWindowParamCurrent);
         });
         mSearchView.setOnCloseListener(() -> {
             tips.setVisibility(VISIBLE);
 
-            // 关闭时清除焦点
+            // Clear focus on close
             mWindowParamCurrent.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                     | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                     | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
             mWindowManager.updateViewLayout(mHistoryLayout, mWindowParamCurrent);
 
-            return false;       /* 这里必须返回false，否则需要自行处理搜索框的折叠 */
+            return false;       /* Must return false here, otherwise need to handle search box collapse manually */
         });
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {// 当点击搜索按钮时触发该方法
+            public boolean onQueryTextSubmit(String query) {// Triggered when search button is clicked
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {// 当搜索内容改变时触发该方法
+            public boolean onQueryTextChange(String newText) {// Triggered when search content changes
                 if (TextUtils.isEmpty(newText)) {
                     showHistory(mAllRecord);
                 } else {
@@ -715,7 +715,7 @@ public class JoyStick extends View {
         noRecordText = mHistoryLayout.findViewById(R.id.joystick_his_record_no_textview);
         mRecordListView = mHistoryLayout.findViewById(R.id.joystick_his_record_list_view);
         mRecordListView.setOnItemClickListener((adapterView, view, i, l) -> {
-            // 关闭时清除焦点
+            // Clear focus on close
             mWindowParamCurrent.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                     | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                     | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
@@ -747,7 +747,7 @@ public class JoyStick extends View {
 
         ImageButton btnClose = mHistoryLayout.findViewById(R.id.joystick_his_close);
         btnClose.setOnClickListener(v -> {
-            // 关闭时清除焦点
+            // Clear focus on close
             mWindowParamCurrent.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                     | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                     | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
@@ -793,8 +793,8 @@ public class JoyStick extends View {
                 item.put(HistoryActivity.KEY_ID, Integer.toString(ID));
                 item.put(HistoryActivity.KEY_LOCATION, Location);
                 item.put(HistoryActivity.KEY_TIME, GoUtils.timeStamp2Date(Long.toString(TimeStamp)));
-                item.put(HistoryActivity.KEY_LNG_LAT_WGS, "[经度:" + doubleLongitude + " 纬度:" + doubleLatitude + "]");
-                item.put(HistoryActivity.KEY_LNG_LAT_CUSTOM, "[经度:" + doubleBDLongitude + " 纬度:" + doubleBDLatitude + "]");
+                item.put(HistoryActivity.KEY_LNG_LAT_WGS, "[Longitude:" + doubleLongitude + " Latitude:" + doubleLatitude + "]");
+                item.put(HistoryActivity.KEY_LNG_LAT_CUSTOM, "[Longitude:" + doubleBDLongitude + " Latitude:" + doubleBDLatitude + "]");
                 mAllRecord.add(item);
             }
             cursor.close();
@@ -817,7 +817,7 @@ public class JoyStick extends View {
                         mContext,
                         list,
                         R.layout.history_item,
-                        new String[]{HistoryActivity.KEY_ID, HistoryActivity.KEY_LOCATION, HistoryActivity.KEY_TIME, HistoryActivity.KEY_LNG_LAT_WGS, HistoryActivity.KEY_LNG_LAT_CUSTOM}, // 与下面数组元素要一一对应
+                        new String[]{HistoryActivity.KEY_ID, HistoryActivity.KEY_LOCATION, HistoryActivity.KEY_TIME, HistoryActivity.KEY_LNG_LAT_WGS, HistoryActivity.KEY_LNG_LAT_CUSTOM}, // Must correspond one-to-one with array elements below
                         new int[]{R.id.LocationID, R.id.LocationText, R.id.TimeText, R.id.WGSLatLngText, R.id.BDLatLngText});
                 mRecordListView.setAdapter(simAdapt);
             } catch (Exception e) {
