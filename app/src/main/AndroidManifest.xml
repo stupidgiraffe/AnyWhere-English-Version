@@ -2,17 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Android Q 新增的权限。允许用户授予对两个不同范围的位置访问权限：在使用中（仅限前景）或始终（前景和后台） -->
+    <!-- New permission in Android Q. Allows users to grant location access in two different scopes: while in use (foreground only) or always (foreground and background) -->
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-    <!-- 允许一个程序访问CellID或WiFi热点来获取粗略的位置 -->
+    <!-- Allow a program to access CellID or WiFi hotspots to get approximate location -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- Android 13+ 需要此权限来显示通知 -->
+    <!-- Android 13+ requires this permission to show notifications -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <!-- 通过GPS得到精确位置 -->
+    <!-- Get precise location through GPS -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!-- 允许程序访问Wi-Fi网络状态信息 -->
+    <!-- Allow program to access Wi-Fi network state information -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!-- 允许程序访问有关GSM网络信息 -->
+    <!-- Allow program to access GSM network information -->
     
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -20,17 +20,17 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <!-- 允许程序打开网络套接字 -->
+    <!-- Allow program to open network sockets -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- 允许访问振动设备 -->
+    <!-- Allow access to vibration device -->
     <uses-permission android:name="android.permission.VIBRATE" />
-    <!-- 允许使用PowerManager的 WakeLocks保持进程在休眠时从屏幕消失 -->
+    <!-- Allow use of PowerManager WakeLocks to keep process alive when screen goes off -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <!-- 允许程序创建模拟位置提供用于测试 -->
+    <!-- Allow program to create mock locations for testing -->
     <uses-permission
         android:name="android.permission.ACCESS_MOCK_LOCATION"
         tools:ignore="MockLocation,ProtectedPermissions" />
-    <!-- 允许一个程序打开窗口使用 TYPE_SYSTEM_ALERT，显示在其他所有程序的顶层 -->
+    <!-- Allow a program to open windows using TYPE_SYSTEM_ALERT, displayed on top of all other programs -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
@@ -48,7 +48,7 @@
             android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="隐藏模拟位置检测 (Hide Mock Location Status)" />
+            android:value="Hide Mock Location Status" />
         <meta-data
             android:name="xposedminversion"
             android:value="54" />

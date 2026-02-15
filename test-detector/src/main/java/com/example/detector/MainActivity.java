@@ -42,22 +42,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // 动态创建布局
+        // Dynamically create layout
         android.widget.LinearLayout layout = new android.widget.LinearLayout(this);
         layout.setOrientation(android.widget.LinearLayout.VERTICAL);
         layout.setPadding(32, 32, 32, 32);
 
         Button btnCheck = new Button(this);
-        btnCheck.setText("开始全面检测 / Start Detection");
+        btnCheck.setText("Start Full Detection");
         layout.addView(btnCheck);
 
         Button btnClear = new Button(this);
-        btnClear.setText("清空日志 / Clear Log");
+        btnClear.setText("Clear Log");
         layout.addView(btnClear);
 
         scrollView = new ScrollView(this);
         logTv = new TextView(this);
-        logTv.setText("点击上方按钮开始检测...\n确保在 LSPosed 中已勾选本应用！\n");
+        logTv.setText("Click the button above to start detection...\nMake sure this app is enabled in LSPosed!\n");
         scrollView.addView(logTv);
         layout.addView(scrollView);
 
@@ -95,19 +95,19 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("MissingPermission")
     private void startDetection() {
-        log("=== 开始检测 ===");
+        log("=== Starting Detection ===");
 
-        // 1. 检查 Provider 列表
+        // 1. Check Provider list
         List<String> providers = locationManager.getAllProviders();
-        log("Provider 列表: " + providers.toString());
+        log("Provider list: " + providers.toString());
         if (providers.contains("gps_test") || providers.contains("mock")) {
-            log("❌ 警告：检测到 Mock Provider！");
+            log("❌ Warning: Mock Provider detected!");
         } else {
-            log("✅ Provider 列表看起来正常。");
+            log("✅ Provider list looks normal.");
         }
 
-        // 2. 检查位置信息 (GPS)
-        log("正在请求 GPS 位置...");
+        // 2. Check location information (GPS)
+        log("Requesting GPS location...");
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
             @Override
             public void onLocationChanged(@NonNull Location location) {
@@ -121,17 +121,17 @@ public class MainActivity extends AppCompatActivity {
                     sats = extras.getInt("satellites", -1);
                 }
 
-                log("📍 位置更新: " + location.getLatitude() + ", " + location.getLongitude());
+                log("📍 Location update: " + location.getLatitude() + ", " + location.getLongitude());
                 if (isMock) {
-                    log("❌ 暴露：检测到 isFromMockProvider=true");
+                    log("❌ Exposed: isFromMockProvider=true detected");
                 } else {
-                    log("✅ 掩护成功：isFromMockProvider=false");
+                    log("✅ Cover successful: isFromMockProvider=false");
                 }
                 
                 if (sats >= 0) {
                     log("✅ extras.satellites = " + sats);
                 } else {
-                    log("❓ extras 中没有 satellites");
+                    log("❓ No satellites in extras");
                 }
                 locationManager.removeUpdates(this);
             }
@@ -140,10 +140,10 @@ public class MainActivity extends AppCompatActivity {
             @Override public void onProviderDisabled(@NonNull String provider) {}
         });
 
-        // 3. 检查 GpsStatus (旧版)
-        log("正在检查 GpsStatus (API < 24)...");
+        // 3. Check GpsStatus (legacy)
+        log("Checking GpsStatus (API < 24)...");
         try {
-            // 注意：新版 Hook 模块已不再模拟过时的 GpsStatus，此处可能无数据
+            // Note: New version Hook module no longer simulates deprecated GpsStatus, may have no data here
             locationManager.addGpsStatusListener(event -> {
                 if (event == GpsStatus.GPS_EVENT_SATELLITE_STATUS) {
                     GpsStatus status = locationManager.getGpsStatus(null);
@@ -154,54 +154,54 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     if (count > 0) {
-                        log("⚠️ GpsStatus 捕获到卫星: " + count + " (旧版API)");
+                        log("⚠️ GpsStatus captured satellites: " + count + " (legacy API)");
                     } else {
-                        log("ℹ️ GpsStatus 卫星数量为 0 (符合预期，已废弃)");
+                        log("ℹ️ GpsStatus satellite count is 0 (expected, deprecated)");
                     }
                     locationManager.removeGpsStatusListener(this::onGpsStatusChanged);
                 }
             });
             GpsStatus status = locationManager.getGpsStatus(null);
         } catch (Exception e) {
-            log("跳过 GpsStatus 检测: " + e.getMessage());
+            log("Skipped GpsStatus detection: " + e.getMessage());
         }
 
-        // 4. 检查 GnssStatus (新版)
+        // 4. Check GnssStatus (new version)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            log("正在检查 GnssStatus (API 24+)...");
+            log("Checking GnssStatus (API 24+)...");
             locationManager.registerGnssStatusCallback(new GnssStatus.Callback() {
                 @Override
                 public void onSatelliteStatusChanged(@NonNull GnssStatus status) {
                     int count = status.getSatelliteCount();
                     if (count > 0) {
-                        log("✅ GnssStatus 捕获到卫星: " + count + " 颗");
-                        // 检查信噪比
+                        log("✅ GnssStatus captured satellites: " + count);
+                        // Check carrier-to-noise density ratio (C/N0)
                         float cn0 = status.getCn0DbHz(0);
-                        log("ℹ️ 卫星#1 信号强度: " + cn0);
+                        log("ℹ️ Satellite #1 signal strength: " + cn0);
                     } else {
-                        log("❌ GnssStatus 卫星数量为 0！");
+                        log("❌ GnssStatus satellite count is 0!");
                     }
                     locationManager.unregisterGnssStatusCallback(this);
                 }
             }, new Handler(Looper.getMainLooper()));
         }
 
-        // 5. 检查 Wi-Fi
-        log("正在检查 Wi-Fi...");
+        // 5. Check Wi-Fi
+        log("Checking Wi-Fi...");
         List<ScanResult> wifiList = wifiManager.getScanResults();
         if (wifiList == null || wifiList.isEmpty()) {
-            log("✅ Wi-Fi 列表为空 (Hook 生效)");
+            log("✅ Wi-Fi list is empty (Hook active)");
         } else {
-            log("❌ 警告：扫描到 " + wifiList.size() + " 个 Wi-Fi 热点！(Hook 失败)");
+            log("❌ Warning: Scanned " + wifiList.size() + " Wi-Fi hotspots! (Hook failed)");
         }
 
-        // 6. 检查基站
-        log("正在检查基站...");
+        // 6. Check cell towers
+        log("Checking cell towers...");
         List<CellInfo> cellList = telephonyManager.getAllCellInfo();
         if (cellList == null || cellList.isEmpty()) {
-            log("✅ 基站列表为空 (Hook 生效)");
+            log("✅ Cell tower list is empty (Hook active)");
         } else {
-            log("❌ 警告：扫描到 " + cellList.size() + " 个基站！(Hook 失败)");
+            log("❌ Warning: Scanned " + cellList.size() + " cell towers! (Hook failed)");
         }
     }
 
