@@ -51,7 +51,7 @@ public class ServiceGo extends Service implements SensorEventListener {
     private double mCurLng = DEFAULT_LNG;
     private double mCurAlt = DEFAULT_ALT;
     private float mCurBea = DEFAULT_BEA;
-    private double mSpeed = 1.2;        /* 默认的速度，单位 m/s */
+    private double mSpeed = 1.2;        /* Default speed, unit: m/s */
     private static final int HANDLER_MSG_ID = 0;
     private static final String SERVICE_GO_HANDLER_NAME = "ServiceGoLocation";
     private LocationManager mLocManager;
@@ -224,13 +224,13 @@ public class ServiceGo extends Service implements SensorEventListener {
             @Override
             public void onMoveInfo(double speed, double disLng, double disLat, double angle) {
                 mSpeed = speed;
-                // 根据当前的经纬度和距离，计算下一个经纬度
-                // Latitude: 1 deg = 110.574 km // 纬度的每度的距离大约为 110.574km
-                // Longitude: 1 deg = 111.320*cos(latitude) km  // 经度的每度的距离从0km到111km不等
-                // 具体见：http://wp.mlab.tw/?p=2200
+                // Calculate next latitude and longitude based on current position and distance
+                // Latitude: 1 deg = 110.574 km // Each degree of latitude is approximately 110.574km
+                // Longitude: 1 deg = 111.320*cos(latitude) km  // Each degree of longitude ranges from 0km to 111km
+                // Details: http://wp.mlab.tw/?p=2200
                 mCurLng += disLng / (111.320 * Math.cos(Math.abs(mCurLat) * Math.PI / 180));
                 mCurLat += disLat / 110.574;
-                mCurBea = (float) angle; // 摇杆移动方向，可备用，但这里主要用 mRealBearing
+                mCurBea = (float) angle; // Joystick movement direction, can be used as backup, but here mainly use mRealBearing
             }
 
             @Override
@@ -250,17 +250,17 @@ public class ServiceGo extends Service implements SensorEventListener {
     }
 
     private void initGoLocation() {
-        // 创建 HandlerThread 实例，第一个参数是线程的名字
+        // Create HandlerThread instance, first parameter is the thread name
         mLocHandlerThread = new HandlerThread(SERVICE_GO_HANDLER_NAME, Process.THREAD_PRIORITY_FOREGROUND);
-        // 启动 HandlerThread 线程
+        // Start HandlerThread
         mLocHandlerThread.start();
-        // Handler 对象与 HandlerThread 的 Looper 对象的绑定
+        // Bind Handler object to HandlerThread's Looper object
         mLocHandler = new Handler(mLocHandlerThread.getLooper()) {
-            // 这里的Handler对象可以看作是绑定在HandlerThread子线程中，所以handlerMessage里的操作是在子线程中运行的
+            // This Handler object can be seen as bound to the HandlerThread child thread, so operations in handlerMessage run in the child thread
             @Override
             public void handleMessage(@NonNull Message msg) {
                 try {
-                    // 模拟真实 GPS 频率，提高到 10Hz (100ms) 以减少闪回
+                    // Simulate real GPS frequency, increase to 10Hz (100ms) to reduce flashback
                     Thread.sleep(100);
 
                     if (!isStop) {
@@ -291,11 +291,11 @@ public class ServiceGo extends Service implements SensorEventListener {
         }
     }
 
-    // 注意下面临时添加 @SuppressLint("wrongconstant") 以处理 addTestProvider 参数值的 lint 错误
+    // Note: temporarily add @SuppressLint("wrongconstant") below to handle lint errors for addTestProvider parameter values
     @SuppressLint("wrongconstant")
     private void addTestProviderGPS() {
         try {
-            // 注意，由于 android api 问题，下面的参数会提示错误(以下参数是通过相关API获取的真实GPS参数，不是随便写的)
+            // Note: Due to Android API issues, the parameters below will show errors (these parameters are obtained from real GPS parameters via related APIs, not randomly written)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 mLocManager.addTestProvider(LocationManager.GPS_PROVIDER, false, true, false,
                         false, true, true, true, ProviderProperties.POWER_USAGE_HIGH, ProviderProperties.ACCURACY_FINE);
@@ -313,8 +313,8 @@ public class ServiceGo extends Service implements SensorEventListener {
 
     private void setLocationGPS() {
         try {
-            // 添加随机噪点 (模拟GPS漂移)
-            // 0.00002 度大约对应 2.2 米左右
+            // Add random noise (simulate GPS drift)
+            // 0.00002 degrees is approximately 2.2 meters
             double noiseLat = (mRandom.nextDouble() - 0.5) * 0.00004; 
             double noiseLng = (mRandom.nextDouble() - 0.5) * 0.00004;
             double noiseAlt = (mRandom.nextDouble() - 0.5) * 1.0;
@@ -351,11 +351,11 @@ public class ServiceGo extends Service implements SensorEventListener {
         }
     }
 
-    // 注意下面临时添加 @SuppressLint("wrongconstant") 以处理 addTestProvider 参数值的 lint 错误
+    // Note: temporarily add @SuppressLint("wrongconstant") below to handle lint errors for addTestProvider parameter values
     @SuppressLint("wrongconstant")
     private void addTestProviderNetwork() {
         try {
-            // 注意，由于 android api 问题，下面的参数会提示错误(以下参数是通过相关API获取的真实NETWORK参数，不是随便写的)
+            // Note: Due to Android API issues, the parameters below will show errors (these parameters are obtained from real NETWORK parameters via related APIs, not randomly written)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 mLocManager.addTestProvider(LocationManager.NETWORK_PROVIDER, true, false,
                         true, true, true, true,

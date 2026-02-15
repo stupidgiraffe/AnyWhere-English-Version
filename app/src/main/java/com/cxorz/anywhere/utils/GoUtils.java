@@ -42,9 +42,9 @@ public class GoUtils {
         void onError(String msg);
     }
 
-    // WIFI是否可用
+    // Check if WIFI is available
     public static boolean isWifiConnected(Context context) {
-        // 从 API 29 开始，NetworkInfo 被标记为过时，这里更换新方法
+        // Starting from API 29, NetworkInfo is marked as deprecated, here we use the new method
         ConnectivityManager connectivityManager = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         Network nw = connectivityManager.getActiveNetwork();
@@ -60,9 +60,9 @@ public class GoUtils {
         return wifiManager.isWifiEnabled();
     }
 
-    // MOBILE网络是否可用
+    // Check if MOBILE network is available
     public static boolean isMobileConnected(Context context) {
-        // 从 API 29 开始，NetworkInfo 被标记为过时，这里更换新方法
+        // Starting from API 29, NetworkInfo is marked as deprecated, here we use the new method
         ConnectivityManager connectivityManager = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         Network nw = connectivityManager.getActiveNetwork();
@@ -73,9 +73,9 @@ public class GoUtils {
         return actNw != null && (actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR));
     }
 
-    // 断是否有网络连接，但是如果该连接的网络无法上网，也会返回true
+    // Check if there is a network connection, but will return true even if the connected network cannot access the internet
     public static boolean isNetworkConnected(Context context) {
-        // 从 API 29 开始，NetworkInfo 被标记为过时，这里更换新方法
+        // Starting from API 29, NetworkInfo is marked as deprecated, here we use the new method
         ConnectivityManager connectivityManager = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         Network nw = connectivityManager.getActiveNetwork();
@@ -88,26 +88,26 @@ public class GoUtils {
                 || actNw.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH));
     }
 
-    // 网络是否可用
+    // Check if network is available
     public static boolean isNetworkAvailable(Context context) {
         return ((isWifiConnected(context) || isMobileConnected(context)) && isNetworkConnected(context));
     }
 
-    // 判断GPS是否打开
+    // Check if GPS is enabled
     public static boolean isGpsOpened(Context context) {
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
-    // 判断是否已在开发者选项中开启模拟位置权限（注意下面临时添加 @SuppressLint("wrongconstant") 以处理
-    // addTestProvider 参数值的 lint 错误）
+    // Check if mock location permission is enabled in developer options (Note: temporarily add @SuppressLint("wrongconstant")
+    // below to handle lint errors for addTestProvider parameter values)
     @SuppressLint("wrongconstant")
     public static boolean isAllowMockLocation(Context context) {
         boolean canMockPosition = false;
         int index;
 
         try {
-            LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);// 获得LocationManager引用
+            LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);// Get LocationManager reference
 
             List<String> list = locationManager.getAllProviders();
             for (index = 0; index < list.size(); index++) {
@@ -117,7 +117,7 @@ public class GoUtils {
             }
 
             if (index < list.size()) {
-                // 注意，由于 android api 问题，下面的参数会提示错误(以下参数是通过相关API获取的真实GPS参数，不是随便写的)
+                // Note: Due to Android API issues, the parameters below will show errors (these parameters are obtained from real GPS parameters via related APIs, not randomly written)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     locationManager.addTestProvider(LocationManager.GPS_PROVIDER, false, true, false,
                             false, true, true, true, ProviderProperties.POWER_USAGE_HIGH,
@@ -143,10 +143,10 @@ public class GoUtils {
     }
 
     /**
-     * [获取应用程序版本名称]
-     * 
+     * [Get application version name]
+     *
      * @param context context
-     * @return 当前应用的版本名称
+     * @return current application version name
      */
     public static synchronized String getVersionName(Context context) {
         try {
@@ -165,10 +165,10 @@ public class GoUtils {
     }
 
     /**
-     * 获取App的名称
-     * 
-     * @param context 上下文
-     * @return 名称
+     * Get App name
+     *
+     * @param context context
+     * @return name
      */
     public static String getAppName(Context context) {
         PackageManager pm = context.getPackageManager();
@@ -198,9 +198,9 @@ public class GoUtils {
     // 提醒开启位置模拟的弹框
     public static void showEnableMockLocationDialog(Context context) {
         new AlertDialog.Builder(context)
-                .setTitle("启用位置模拟")// 这里是表头的内容
-                .setMessage("请在\"开发者选项→选择模拟位置信息应用\"中进行设置")// 这里是中间显示的具体信息
-                .setPositiveButton("设置", (dialog, which) -> {
+                .setTitle("Enable Mock Location")// Dialog title
+                .setMessage("Please set in \"Developer Options → Select Mock Location App\"")// Main message
+                .setPositiveButton("Settings", (dialog, which) -> {
                     try {
                         Intent intent = new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -209,7 +209,7 @@ public class GoUtils {
                         e.printStackTrace();
                     }
                 })
-                .setNegativeButton("取消", (dialog, which) -> {
+                .setNegativeButton("Cancel", (dialog, which) -> {
                 })
                 .show();
     }
@@ -217,9 +217,9 @@ public class GoUtils {
     // 提醒开启悬浮窗的弹框
     public static void showEnableFloatWindowDialog(Context context) {
         new AlertDialog.Builder(context)
-                .setTitle("启用悬浮窗")// 这里是表头的内容
-                .setMessage("为了模拟定位的稳定性，建议开启\"显示悬浮窗\"选项")// 这里是中间显示的具体信息
-                .setPositiveButton("设置", (dialog, which) -> {
+                .setTitle("Enable Floating Window")// Dialog title
+                .setMessage("For the stability of mock location, it is recommended to enable \"Display Floating Window\" option")// Main message
+                .setPositiveButton("Settings", (dialog, which) -> {
                     try {
                         Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                                 Uri.parse("package:" + context.getPackageName()));
@@ -235,12 +235,12 @@ public class GoUtils {
                 .show();
     }
 
-    // 显示开启GPS的提示
+    // Show dialog to enable GPS
     public static void showEnableGpsDialog(Context context) {
         new AlertDialog.Builder(context)
-                .setTitle("启用定位服务")// 这里是表头的内容
-                .setMessage("是否开启 GPS 定位服务?")// 这里是中间显示的具体信息
-                .setPositiveButton("确定", (dialog, which) -> {
+                .setTitle("Enable Location Service")// Dialog title
+                .setMessage("Do you want to enable GPS location service?")// Main message
+                .setPositiveButton("OK", (dialog, which) -> {
                     try {
                         Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                         context.startActivity(intent);
@@ -254,9 +254,9 @@ public class GoUtils {
                 .show();
     }
 
-    // 提醒关闭 WIFI 的 Toast
+    // Toast reminder to turn off WIFI
     public static void showWifiWarningToast(Context context) {
-        DisplayToast(context, "建议关闭Wifi，使用移动网络，避免位置跳动");
+        DisplayToast(context, "It is recommended to turn off WiFi and use mobile network to avoid location jumping");
     }
 
     public static void DisplayToast(Context context, String str) {
@@ -270,16 +270,16 @@ public class GoUtils {
         private TimeCountListener mListener;
 
         public TimeCount(long millisInFuture, long countDownInterval) {
-            super(millisInFuture, countDownInterval);// 参数依次为总时长,和计时的时间间隔
+            super(millisInFuture, countDownInterval);// Parameters are total duration and countdown interval respectively
         }
 
         @Override
-        public void onFinish() {// 计时完毕时触发
+        public void onFinish() {// Triggered when countdown is complete
             mListener.onFinish();
         }
 
         @Override
-        public void onTick(long millisUntilFinished) { // 计时过程显示
+        public void onTick(long millisUntilFinished) { // Display during countdown
             mListener.onTick(millisUntilFinished);
         }
 

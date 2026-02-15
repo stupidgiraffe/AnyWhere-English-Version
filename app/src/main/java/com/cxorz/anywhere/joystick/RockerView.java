@@ -23,17 +23,17 @@ public class RockerView extends View {
     private Paint outerCirclePaint;
     private Paint innerCirclePaint;
     private Paint innerIconPaint;
-    /** 内圆中心x坐标 */
+    /** Inner circle center x coordinate */
     private float innerCenterX;
-    /** 内圆中心y坐标 */
+    /** Inner circle center y coordinate */
     private float innerCenterY;
-    /** view中心点x坐标 */
+    /** View center point x coordinate */
     private float viewCenterX;
-    /** view中心点y左边 */
+    /** View center point y coordinate */
     private float viewCenterY;
-    /** 外圆半径 */
+    /** Outer circle radius */
     private int outerCircleRadius;
-    /** 内圆半径 */
+    /** Inner circle radius */
     private int innerCircleRadius;
 
     private Bitmap mRockerBitmap = null;
@@ -106,7 +106,7 @@ public class RockerView extends View {
         super.onDraw(canvas);
 
         canvas.drawCircle(viewCenterX, viewCenterY, outerCircleRadius, outerCirclePaint);
-        /* 摇杆的控制部分由两部分组成 */
+        /* The control part of the joystick consists of two parts */
         canvas.drawCircle(innerCenterX, innerCenterY, innerCircleRadius, innerCirclePaint);
         canvas.drawBitmap(mRockerBitmap, srcRect, dstRect, innerIconPaint);
     }
@@ -126,7 +126,7 @@ public class RockerView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                /* 如果初始点击位置 不再内圆中,返回 false 将不再继续处理后续事件 */
+                /* If the initial click position is not in the inner circle, return false and no longer process subsequent events */
                 if (event.getX() < innerCenterX - innerCircleRadius || event.getX() > innerCenterX + innerCircleRadius
                 || event.getY() < innerCenterY - innerCircleRadius || event.getY() > innerCenterY + innerCircleRadius)
                 {
@@ -236,7 +236,7 @@ public class RockerView extends View {
 
     public interface RockerViewClickListener {
         /**
-         * 点击的角度信息
+         * Click angle information
          */
         void clickAngleInfo(boolean auto, double angle, double r);
     }
