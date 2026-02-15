@@ -25,13 +25,13 @@ public class WelcomeActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_welcome);
 
-        // 生成默认参数的值
+        // Generate default parameter values
         PreferenceManager.setDefaultValues(this, R.xml.preferences_main, false);
 
         Button startBtn = findViewById(R.id.startButton);
         startBtn.setOnClickListener(v -> startMainActivity());
 
-        // 自动检查权限，如果已授权则直接进入主页
+        // Auto check permissions, go directly to main page if already authorized
         checkAutoLogin();
     }
 

@@ -77,7 +77,7 @@ import java.util.Map;
 import okhttp3.OkHttpClient;
 
 public class MainActivity extends BaseActivity implements SensorEventListener {
-    /* 对外 */
+    /* External */
     public static final String LAT_MSG_ID = "LAT_VALUE";
     public static final String LNG_MSG_ID = "LNG_VALUE";
     public static final String ALT_MSG_ID = "ALT_VALUE";
@@ -90,24 +90,24 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
     private OkHttpClient mOkHttpClient;
     private SharedPreferences sharedPreferences;
 
-    /* ============================== 主界面地图 相关 ============================== */
-    /************** 地图 *****************/
+    /* ============================== Main interface map related ============================== */
+    /************** Map *****************/
     public static String mCurrentCity = null;
     private MapView mMapView;
     private IMapController mMapController;
     private MyLocationNewOverlay mLocationOverlay;
     private Marker mCurrentMarker;
 
-    private static GeoPoint mMarkLatLngMap = new GeoPoint(39.9042, 116.4074); // 默认北京
+    private static GeoPoint mMarkLatLngMap = new GeoPoint(39.9042, 116.4074); // Default Beijing
     private static String mMarkName = null;
     private SensorManager mSensorManager;
     private Sensor mSensorAccelerometer;
     private Sensor mSensorMagnetic;
-    private float[] mAccValues = new float[3];// 加速度传感器数据
-    private float[] mMagValues = new float[3];// 地磁传感器数据
-    private final float[] mR = new float[9];// 旋转矩阵，用来保存磁场和加速度的数据
-    private final float[] mDirectionValues = new float[3];// 模拟方向传感器的数据（原始数据为弧度）
-    /************** 定位 *****************/
+    private float[] mAccValues = new float[3];// Accelerometer sensor data
+    private float[] mMagValues = new float[3];// Geomagnetic sensor data
+    private final float[] mR = new float[9];// Rotation matrix to store magnetic field and accelerometer data
+    private final float[] mDirectionValues = new float[3];// Simulated direction sensor data (raw data in radians)
+    /************** Location *****************/
     private double mCurrentLat = 0.0;
     private double mCurrentLon = 0.0;
     private float mCurrentDirection = 0.0f;
@@ -116,11 +116,11 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
     private ServiceGo.ServiceGoBinder mServiceBinder;
     private ServiceConnection mConnection;
     private FloatingActionButton mButtonStart;
-    /* ============================== 历史记录 相关 ============================== */
+    /* ============================== History records related ============================== */
     private SQLiteDatabase mLocationHistoryDB;
     private SQLiteDatabase mSearchHistoryDB;
     /*
-     * ============================== SearchView 相关 ==============================
+     * ============================== SearchView Related ==============================
      */
     private SearchView searchView;
     private ListView mSearchList;
@@ -409,7 +409,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
 
                         ContentValues contentValues = new ContentValues();
                         contentValues.put(DataBaseHistorySearch.DB_COLUMN_KEY, query);
-                        contentValues.put(DataBaseHistorySearch.DB_COLUMN_DESCRIPTION, "搜索关键字");
+                        contentValues.put(DataBaseHistorySearch.DB_COLUMN_DESCRIPTION, "Search keyword");
                         contentValues.put(DataBaseHistorySearch.DB_COLUMN_IS_LOCATION,
                                 DataBaseHistorySearch.DB_SEARCH_TYPE_KEY);
                         contentValues.put(DataBaseHistorySearch.DB_COLUMN_TIMESTAMP, System.currentTimeMillis() / 1000);
@@ -572,7 +572,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
                                     getResources().getString(R.string.app_location_copy));
                         });
                         ImageButton ibShare = poiView.findViewById(R.id.poi_share);
-                        ibShare.setOnClickListener(v -> ShareUtils.shareText(MainActivity.this, "分享位置",
+                        ibShare.setOnClickListener(v -> ShareUtils.shareText(MainActivity.this, "Share location",
                                 poiLongitude.getText() + "," + poiLatitude.getText()));
                         ImageButton ibFly = poiView.findViewById(R.id.poi_fly);
                         ibFly.setOnClickListener(this::doGoLocation);
@@ -627,7 +627,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
                     mCurrentLat = myLoc.getLatitude();
                     mCurrentLon = myLoc.getLongitude();
                     mMarkLatLngMap = myLoc;
-                    GoUtils.DisplayToast(MainActivity.this, "已成功获取当前位置");
+                    GoUtils.DisplayToast(MainActivity.this, "Successfully obtained current location");
                 }
             }));
         }
@@ -658,7 +658,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
                     mMapController.setCenter(mMarkLatLngMap);
                     mMapController.animateTo(mMarkLatLngMap);
                     markMap();
-                    GoUtils.DisplayToast(this, "已恢复至上次位置");
+                    GoUtils.DisplayToast(this, "Restored to last location");
                     found = true;
                 }
             }
@@ -683,7 +683,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
         inputPosBtn.setOnClickListener(v -> {
             AlertDialog dialog;
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle("请输入经度和纬度");
+            builder.setTitle("Please enter longitude and latitude");
             View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.location_input, null);
             builder.setView(view);
             dialog = builder.show();
@@ -740,7 +740,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
                                     getResources().getString(R.string.app_error_latitude));
                         } else {
                             mMarkLatLngMap = new GeoPoint(dialog_lat_double, dialog_lng_double);
-                            mMarkName = "手动输入的坐标";
+                            mMarkName = "Manually entered coordinates";
 
                             markMap();
                             mMapController.setCenter(mMarkLatLngMap);
@@ -780,7 +780,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
             if (!GoUtils.isGpsOpened(this)) {
                 GoUtils.DisplayToast(this, getResources().getString(R.string.app_error_gps));
             } else {
-                GoUtils.DisplayToast(this, "定位失败：请确保处于室外开阔地带并稍后重试");
+                GoUtils.DisplayToast(this, "Positioning failed: Please ensure you are in an open outdoor area and try again later");
             }
         }
     }
@@ -832,20 +832,20 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
 
         if (!Settings.canDrawOverlays(getApplicationContext())) {
             GoUtils.showEnableFloatWindowDialog(this);
-            XLog.e("无悬浮窗权限!");
+            XLog.e("No floating window permission!");
             return;
         }
 
         if (isMockServStart) {
             if (mMarkLatLngMap == null) {
                 stopGoLocation();
-                Snackbar.make(v, "模拟位置已终止", Snackbar.LENGTH_LONG)
+                Snackbar.make(v, "Mock location has been terminated", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 mButtonStart.setImageResource(R.drawable.ic_position);
             } else {
                 double alt = Double.parseDouble(sharedPreferences.getString("setting_altitude", "55.0"));
                 mServiceBinder.setPosition(mMarkLatLngMap.getLongitude(), mMarkLatLngMap.getLatitude(), alt);
-                Snackbar.make(v, "已传送到新位置", Snackbar.LENGTH_LONG)
+                Snackbar.make(v, "Transported to new location", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
                 recordCurrentLocation(mMarkLatLngMap.getLongitude(), mMarkLatLngMap.getLatitude());
@@ -863,15 +863,15 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
         } else {
             if (!GoUtils.isAllowMockLocation(this)) {
                 GoUtils.showEnableMockLocationDialog(this);
-                XLog.e("无模拟位置权限!");
+                XLog.e("No mock location permission!");
             } else {
                 if (mMarkLatLngMap == null) {
-                    Snackbar.make(v, "请先点击地图位置或者搜索位置", Snackbar.LENGTH_LONG)
+                    Snackbar.make(v, "Please click on map location or search for location first", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 } else {
                     startGoLocation();
                     mButtonStart.setImageResource(R.drawable.ic_fly);
-                    Snackbar.make(v, "模拟位置已启动", Snackbar.LENGTH_LONG)
+                    Snackbar.make(v, "Mock location has been started", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
 
                     recordCurrentLocation(mMarkLatLngMap.getLongitude(), mMarkLatLngMap.getLatitude());
@@ -1021,9 +1021,9 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
         });
         mSearchHistoryList.setOnItemLongClickListener((parent, view, position, id) -> {
             new AlertDialog.Builder(MainActivity.this)
-                    .setTitle("警告")
-                    .setMessage("确定要删除该项搜索记录吗?")
-                    .setPositiveButton("确定", (dialog, which) -> {
+                    .setTitle("Warning")
+                    .setMessage("Are you sure you want to delete this search record?")
+                    .setPositiveButton("Confirm", (dialog, which) -> {
                         String searchKey = ((TextView) view.findViewById(R.id.search_key)).getText().toString();
 
                         try {
@@ -1053,7 +1053,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener {
                                     getResources().getString(R.string.history_delete_error));
                         }
                     })
-                    .setNegativeButton("取消",
+                    .setNegativeButton("Cancel",
                             (dialog, which) -> {
                             })
                     .show();

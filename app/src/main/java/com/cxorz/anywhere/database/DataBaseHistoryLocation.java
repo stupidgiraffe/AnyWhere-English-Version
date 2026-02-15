@@ -40,10 +40,10 @@ public class DataBaseHistoryLocation extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    // 保存选择的位置
+    // Save selected location
     public static void saveHistoryLocation(SQLiteDatabase sqLiteDatabase, ContentValues contentValues) {
         try {
-            // 先删除原来的记录，再插入新记录
+            // Delete old record first, then insert new record
             String longitudeWgs84 = contentValues.getAsString(DB_COLUMN_LONGITUDE_WGS84);
             String latitudeWgs84 = contentValues.getAsString(DB_COLUMN_LATITUDE_WGS84);
             sqLiteDatabase.delete(TABLE_NAME,
@@ -56,7 +56,7 @@ public class DataBaseHistoryLocation extends SQLiteOpenHelper {
         }
     }
 
-    // 修改历史记录名称
+    // Modify history record name
     public static void updateHistoryLocation(SQLiteDatabase sqLiteDatabase, String locID, String location) {
         try{
             ContentValues contentValues = new ContentValues();

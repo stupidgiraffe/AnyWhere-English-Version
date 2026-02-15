@@ -29,7 +29,7 @@ public class HideMockHook implements IXposedHookLoadPackage {
 
     private static final String TAG = "AnyWhereHook";
 
-    // 白名单：排除自己和系统核心进程，避免误伤
+    // Whitelist: Exclude self and system core processes to avoid false positives
     private static final List<String> WHITELIST_PACKAGES = Arrays.asList(
             "com.cxorz.anywhere",
             "android",
@@ -46,7 +46,7 @@ public class HideMockHook implements IXposedHookLoadPackage {
         }
 
         try {
-            // 1. 基础防检测
+            // 1. Basic anti-detection
             XposedHelpers.findAndHookMethod(Location.class, "isFromMockProvider", new XC_MethodReplacement() {
                 @Override
                 protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
@@ -75,7 +75,7 @@ public class HideMockHook implements IXposedHookLoadPackage {
                 }
             });
 
-            // 2. 屏蔽 Wi-Fi 和 基站
+            // 2. Block Wi-Fi and cell tower
             try {
                 XposedHelpers.findAndHookMethod(WifiManager.class, "getScanResults", new XC_MethodReplacement() {
                     @Override
@@ -100,7 +100,7 @@ public class HideMockHook implements IXposedHookLoadPackage {
                 });
             } catch (Throwable t) {}
 
-            // 3. 卫星状态主动伪造 (GnssStatus Only)
+            // 3. Actively forge satellite status (GnssStatus Only)
             final Handler mainHandler = new Handler(Looper.getMainLooper());
             final List<Object> gnssCallbacks = new ArrayList<>();
 
@@ -111,7 +111,7 @@ public class HideMockHook implements IXposedHookLoadPackage {
                 
                 final Class<?> gnssStatusClass = Class.forName("android.location.GnssStatus");
                 
-                // 1. Hook GnssStatus 的所有 Getter 方法
+                // 1. Hook all Getter methods of GnssStatus
                 XposedHelpers.findAndHookMethod(gnssStatusClass, "getSatelliteCount", new XC_MethodReplacement() {
                     @Override
                     protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
@@ -167,7 +167,7 @@ public class HideMockHook implements IXposedHookLoadPackage {
                 try { XposedHelpers.findAndHookMethod(gnssStatusClass, "getCarrierFrequencyHz", int.class, new XC_MethodReplacement() { @Override protected Object replaceHookedMethod(MethodHookParam param) { return 1.57542e9f; } }); } catch (Throwable t) {}
 
 
-                // 2. 拦截注册
+                // 2. Intercept registration
                 Class<?> gnssCallbackClass = Class.forName("android.location.GnssStatus$Callback");
                 XC_MethodReplacement registerGnssHook = new XC_MethodReplacement() {
                     @Override
@@ -184,7 +184,7 @@ public class HideMockHook implements IXposedHookLoadPackage {
                 XposedHelpers.findAndHookMethod(LocationManager.class, "registerGnssStatusCallback", gnssCallbackClass, registerGnssHook);
                 XposedHelpers.findAndHookMethod(LocationManager.class, "registerGnssStatusCallback", gnssCallbackClass, android.os.Handler.class, registerGnssHook);
                 
-                // 2.1 拦截注销 (防止内存泄漏)
+                // 2.1 Intercept unregistration (prevent memory leak)
                 XposedHelpers.findAndHookMethod(LocationManager.class, "unregisterGnssStatusCallback", gnssCallbackClass, new XC_MethodReplacement() {
                     @Override
                     protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
@@ -198,7 +198,7 @@ public class HideMockHook implements IXposedHookLoadPackage {
                     }
                 });
 
-                // 3. 模拟循环
+                // 3. Simulation loop
                 Runnable simulator = new Runnable() {
                     @Override
                     public void run() {
@@ -222,7 +222,7 @@ public class HideMockHook implements IXposedHookLoadPackage {
                 mainHandler.post(simulator);
             }
             
-            // 4. 清理 Settings 和 Provider 列表
+            // 4. Clean Settings and Provider list
             XposedHelpers.findAndHookMethod(Settings.Secure.class, "getString", ContentResolver.class, String.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {

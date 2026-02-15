@@ -94,16 +94,16 @@ public class HistoryActivity extends BaseActivity {
             return true;
         } else if (id ==  R.id.action_delete) {
             new AlertDialog.Builder(HistoryActivity.this)
-                    .setTitle("警告")
-                    .setMessage("确定要删除全部历史记录吗?")
-                    .setPositiveButton("确定",
+                    .setTitle("Warning")
+                    .setMessage("Are you sure you want to delete all history records?")
+                    .setPositiveButton("OK",
                             (dialog, which) -> {
                                 if (deleteRecord(-1)) {
                                     GoUtils.DisplayToast(this, getResources().getString(R.string.history_delete_ok));
                                     updateRecordList();
                                 }
                             })
-                    .setNegativeButton("取消",
+                    .setNegativeButton("Cancel",
                             (dialog, which) -> {
                             })
                     .show();
@@ -153,8 +153,8 @@ public class HistoryActivity extends BaseActivity {
                 item.put(KEY_ID, Integer.toString(ID));
                 item.put(KEY_LOCATION, Location);
                 item.put(KEY_TIME, GoUtils.timeStamp2Date(Long.toString(TimeStamp)));
-                item.put(KEY_LNG_LAT_WGS, "[经度:" + doubleLongitude + " 纬度:" + doubleLatitude + "]");
-                item.put(KEY_LNG_LAT_CUSTOM, "[经度:" + doubleBDLongitude + " 纬度:" + doubleBDLatitude + "]");
+                item.put(KEY_LNG_LAT_WGS, "[Lng:" + doubleLongitude + " Lat:" + doubleLatitude + "]");
+                item.put(KEY_LNG_LAT_CUSTOM, "[Lng:" + doubleBDLongitude + " Lat:" + doubleBDLatitude + "]");
                 data.add(item);
             }
             cursor.close();
@@ -257,16 +257,16 @@ public class HistoryActivity extends BaseActivity {
 
     private void showDeleteDialog(String locID) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("警告");
-        builder.setMessage("确定要删除该项历史记录吗?");
-        builder.setPositiveButton("确定", (dialog, whichButton) -> {
+        builder.setTitle("Warning");
+        builder.setMessage("Are you sure you want to delete this history record?");
+        builder.setPositiveButton("OK", (dialog, whichButton) -> {
             boolean deleteRet = deleteRecord(Integer.parseInt(locID));
             if (deleteRet) {
                 GoUtils.DisplayToast(HistoryActivity.this, getResources().getString(R.string.history_delete_ok));
                 updateRecordList();
             }
         });
-        builder.setNegativeButton("取消", null);
+        builder.setNegativeButton("Cancel", null);
 
         builder.show();
     }
@@ -277,14 +277,14 @@ public class HistoryActivity extends BaseActivity {
         input.setText(name);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("名称");
+        builder.setTitle("Name");
         builder.setView(input);
-        builder.setPositiveButton("确认", (dialog, whichButton) -> {
+        builder.setPositiveButton("OK", (dialog, whichButton) -> {
             String userInput = input.getText().toString();
             DataBaseHistoryLocation.updateHistoryLocation(mHistoryLocationDB, locID, userInput);
             updateRecordList();
         });
-        builder.setNegativeButton("取消", null);
+        builder.setNegativeButton("Cancel", null);
 
         builder.show();
     }
@@ -302,7 +302,7 @@ public class HistoryActivity extends BaseActivity {
         lon += randomLonOffset / 111320;    // (meters -> longitude)
         lat += randomLatOffset / 110574;    // (meters -> latitude)
 
-        String offsetMessage = String.format(Locale.US, "经度偏移: %.2f米\n纬度偏移: %.2f米", randomLonOffset, randomLatOffset);
+        String offsetMessage = String.format(Locale.US, "Longitude offset: %.2fm\nLatitude offset: %.2fm", randomLonOffset, randomLatOffset);
         GoUtils.DisplayToast(this, offsetMessage);
 
         return new String[]{String.valueOf(lon), String.valueOf(lat)};
@@ -343,17 +343,17 @@ public class HistoryActivity extends BaseActivity {
         mRecordListView.setOnItemLongClickListener((parent, view, position, id) -> {
             PopupMenu popupMenu = new PopupMenu(HistoryActivity.this, view);
             popupMenu.setGravity(Gravity.END | Gravity.BOTTOM);
-            popupMenu.getMenu().add("编辑");
-            popupMenu.getMenu().add("删除");
+            popupMenu.getMenu().add("Edit");
+            popupMenu.getMenu().add("Delete");
 
             popupMenu.setOnMenuItemClickListener(item -> {
                 String locID = ((TextView) view.findViewById(R.id.LocationID)).getText().toString();
                 String name = ((TextView) view.findViewById(R.id.LocationText)).getText().toString();
                 switch (item.getTitle().toString()) {
-                    case "编辑":
+                    case "Edit":
                         showInputDialog(locID, name);
                         return true;
-                    case "删除":
+                    case "Delete":
                         showDeleteDialog(locID);
                         return true;
                     default:

@@ -42,7 +42,7 @@ import java.util.Random;
 
 @SuppressWarnings("deprecation")
 public class ServiceGo extends Service implements SensorEventListener {
-    // 定位相关变量
+    // Location-related variables
     public static final double DEFAULT_LAT = 36.667662;
     public static final double DEFAULT_LNG = 117.027707;
     public static final double DEFAULT_ALT = 5.0D;
@@ -51,26 +51,26 @@ public class ServiceGo extends Service implements SensorEventListener {
     private double mCurLng = DEFAULT_LNG;
     private double mCurAlt = DEFAULT_ALT;
     private float mCurBea = DEFAULT_BEA;
-    private double mSpeed = 1.2;        /* 默认的速度，单位 m/s */
+    private double mSpeed = 1.2;        /* Default speed, unit: m/s */
     private static final int HANDLER_MSG_ID = 0;
     private static final String SERVICE_GO_HANDLER_NAME = "ServiceGoLocation";
     private LocationManager mLocManager;
     private HandlerThread mLocHandlerThread;
     private Handler mLocHandler;
     private boolean isStop = false;
-    // 通知栏消息
+    // Notification messages
     private static final int SERVICE_GO_NOTE_ID = 1;
     private static final String SERVICE_GO_NOTE_ACTION_JOYSTICK_SHOW = "ShowJoyStick";
     private static final String SERVICE_GO_NOTE_ACTION_JOYSTICK_HIDE = "HideJoyStick";
     private static final String SERVICE_GO_NOTE_CHANNEL_ID = "SERVICE_GO_NOTE";
     private static final String SERVICE_GO_NOTE_CHANNEL_NAME = "SERVICE_GO_NOTE";
     private NoteActionReceiver mActReceiver;
-    // 摇杆相关
+    // Joystick related
     private JoyStick mJoyStick;
 
     private final ServiceGoBinder mBinder = new ServiceGoBinder();
 
-    // 传感器相关 (真实朝向)
+    // Sensor related (real bearing)
     private SensorManager mSensorManager;
     private Sensor mSensorAcc;
     private Sensor mSensorMag;
@@ -80,7 +80,7 @@ public class ServiceGo extends Service implements SensorEventListener {
     private final float[] mDirectionValues = new float[3];
     private float mRealBearing = 0.0f;
 
-    // 随机噪点生成器
+    // Random noise generator
     private final Random mRandom = new Random();
 
     @Override
@@ -178,7 +178,7 @@ public class ServiceGo extends Service implements SensorEventListener {
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // 不需要处理
+        // No need to handle
     }
 
     private void initNotification() {
@@ -195,7 +195,7 @@ public class ServiceGo extends Service implements SensorEventListener {
             notificationManager.createNotificationChannel(mChannel);
         }
 
-        //准备intent
+        // Prepare intent
         Intent clickIntent = new Intent(this, MainActivity.class);
         PendingIntent clickPI = PendingIntent.getActivity(this, 1, clickIntent, PendingIntent.FLAG_IMMUTABLE);
         Intent showIntent = new Intent(SERVICE_GO_NOTE_ACTION_JOYSTICK_SHOW);
@@ -224,13 +224,13 @@ public class ServiceGo extends Service implements SensorEventListener {
             @Override
             public void onMoveInfo(double speed, double disLng, double disLat, double angle) {
                 mSpeed = speed;
-                // 根据当前的经纬度和距离，计算下一个经纬度
-                // Latitude: 1 deg = 110.574 km // 纬度的每度的距离大约为 110.574km
-                // Longitude: 1 deg = 111.320*cos(latitude) km  // 经度的每度的距离从0km到111km不等
-                // 具体见：http://wp.mlab.tw/?p=2200
+                // Calculate next lat/lng based on current lat/lng and distance
+                // Latitude: 1 deg = 110.574 km
+                // Longitude: 1 deg = 111.320*cos(latitude) km
+                // See: http://wp.mlab.tw/?p=2200
                 mCurLng += disLng / (111.320 * Math.cos(Math.abs(mCurLat) * Math.PI / 180));
                 mCurLat += disLat / 110.574;
-                mCurBea = (float) angle; // 摇杆移动方向，可备用，但这里主要用 mRealBearing
+                mCurBea = (float) angle; // Joystick movement direction, available but mainly use mRealBearing
             }
 
             @Override
@@ -241,7 +241,7 @@ public class ServiceGo extends Service implements SensorEventListener {
             }
         });
 
-        // 根据设置决定是否显示摇杆
+        // Show joystick based on settings
         android.content.SharedPreferences sp = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this);
         boolean isJoyStickEnabled = sp.getBoolean("setting_joystick_state", false);
         if (isJoyStickEnabled) {
@@ -250,17 +250,17 @@ public class ServiceGo extends Service implements SensorEventListener {
     }
 
     private void initGoLocation() {
-        // 创建 HandlerThread 实例，第一个参数是线程的名字
+        // Create HandlerThread instance, first parameter is thread name
         mLocHandlerThread = new HandlerThread(SERVICE_GO_HANDLER_NAME, Process.THREAD_PRIORITY_FOREGROUND);
-        // 启动 HandlerThread 线程
+        // Start HandlerThread
         mLocHandlerThread.start();
-        // Handler 对象与 HandlerThread 的 Looper 对象的绑定
+        // Bind Handler object to HandlerThread's Looper object
         mLocHandler = new Handler(mLocHandlerThread.getLooper()) {
-            // 这里的Handler对象可以看作是绑定在HandlerThread子线程中，所以handlerMessage里的操作是在子线程中运行的
+            // Handler object is bound to HandlerThread sub-thread, so operations in handleMessage run in sub-thread
             @Override
             public void handleMessage(@NonNull Message msg) {
                 try {
-                    // 模拟真实 GPS 频率，提高到 10Hz (100ms) 以减少闪回
+                    // Simulate real GPS frequency, increase to 10Hz (100ms) to reduce flickering
                     Thread.sleep(100);
 
                     if (!isStop) {
@@ -291,11 +291,11 @@ public class ServiceGo extends Service implements SensorEventListener {
         }
     }
 
-    // 注意下面临时添加 @SuppressLint("wrongconstant") 以处理 addTestProvider 参数值的 lint 错误
+    // Note: @SuppressLint("wrongconstant") added to handle lint errors for addTestProvider parameter values
     @SuppressLint("wrongconstant")
     private void addTestProviderGPS() {
         try {
-            // 注意，由于 android api 问题，下面的参数会提示错误(以下参数是通过相关API获取的真实GPS参数，不是随便写的)
+            // Note: Due to Android API issues, parameters below may show errors (these are real GPS parameters obtained through API, not arbitrary)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 mLocManager.addTestProvider(LocationManager.GPS_PROVIDER, false, true, false,
                         false, true, true, true, ProviderProperties.POWER_USAGE_HIGH, ProviderProperties.ACCURACY_FINE);
@@ -313,8 +313,8 @@ public class ServiceGo extends Service implements SensorEventListener {
 
     private void setLocationGPS() {
         try {
-            // 添加随机噪点 (模拟GPS漂移)
-            // 0.00002 度大约对应 2.2 米左右
+            // Add random noise (simulate GPS drift)
+            // 0.00002 degrees is approximately 2.2 meters
             double noiseLat = (mRandom.nextDouble() - 0.5) * 0.00004; 
             double noiseLng = (mRandom.nextDouble() - 0.5) * 0.00004;
             double noiseAlt = (mRandom.nextDouble() - 0.5) * 1.0;
@@ -322,12 +322,12 @@ public class ServiceGo extends Service implements SensorEventListener {
             XLog.d("ServiceGo: setLocationGPS - RealBearing: " + mRealBearing);
 
             Location loc = new Location(LocationManager.GPS_PROVIDER);
-            loc.setAccuracy(Criteria.ACCURACY_FINE);    // 设定此位置的估计水平精度，以米为单位。
-            loc.setAltitude(mCurAlt + noiseAlt);        // 设置高度
-            loc.setBearing(mRealBearing);               // 使用真实传感器方向
-            loc.setLatitude(mCurLat + noiseLat);        // 纬度 + 噪点
-            loc.setLongitude(mCurLng + noiseLng);       // 经度 + 噪点
-            loc.setTime(System.currentTimeMillis());    // 本地时间
+            loc.setAccuracy(Criteria.ACCURACY_FINE);    // Set estimated horizontal accuracy in meters
+            loc.setAltitude(mCurAlt + noiseAlt);        // Set altitude
+            loc.setBearing(mRealBearing);               // Use real sensor bearing
+            loc.setLatitude(mCurLat + noiseLat);        // Latitude + noise
+            loc.setLongitude(mCurLng + noiseLng);       // Longitude + noise
+            loc.setTime(System.currentTimeMillis());    // Local time
             loc.setSpeed((float) mSpeed);
             loc.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
             Bundle bundle = new Bundle();
@@ -351,11 +351,11 @@ public class ServiceGo extends Service implements SensorEventListener {
         }
     }
 
-    // 注意下面临时添加 @SuppressLint("wrongconstant") 以处理 addTestProvider 参数值的 lint 错误
+    // Note: @SuppressLint("wrongconstant") added to handle lint errors for addTestProvider parameter values
     @SuppressLint("wrongconstant")
     private void addTestProviderNetwork() {
         try {
-            // 注意，由于 android api 问题，下面的参数会提示错误(以下参数是通过相关API获取的真实NETWORK参数，不是随便写的)
+            // Note: Due to Android API issues, parameters below may show errors (these are real NETWORK parameters obtained through API, not arbitrary)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 mLocManager.addTestProvider(LocationManager.NETWORK_PROVIDER, true, false,
                         true, true, true, true,
@@ -375,18 +375,18 @@ public class ServiceGo extends Service implements SensorEventListener {
 
     private void setLocationNetwork() {
         try {
-            // 添加随机噪点
+            // Add random noise
             double noiseLat = (mRandom.nextDouble() - 0.5) * 0.00004;
             double noiseLng = (mRandom.nextDouble() - 0.5) * 0.00004;
             double noiseAlt = (mRandom.nextDouble() - 0.5) * 1.0;
 
             Location loc = new Location(LocationManager.NETWORK_PROVIDER);
-            loc.setAccuracy(Criteria.ACCURACY_COARSE);  // 设定此位置的估计水平精度，以米为单位。
+            loc.setAccuracy(Criteria.ACCURACY_COARSE);  // Set estimated horizontal accuracy in meters
             loc.setAltitude(mCurAlt + noiseAlt);
-            loc.setBearing(mRealBearing);               // 使用真实传感器方向
+            loc.setBearing(mRealBearing);               // Use real sensor bearing
             loc.setLatitude(mCurLat + noiseLat);
             loc.setLongitude(mCurLng + noiseLng);
-            loc.setTime(System.currentTimeMillis());    // 本地时间
+            loc.setTime(System.currentTimeMillis());    // Local time
             loc.setSpeed((float) mSpeed);
             loc.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
 
@@ -429,7 +429,7 @@ public class ServiceGo extends Service implements SensorEventListener {
 
     private void setLocationFused() {
         try {
-            // 添加随机噪点
+            // Add random noise
             double noiseLat = (mRandom.nextDouble() - 0.5) * 0.00004;
             double noiseLng = (mRandom.nextDouble() - 0.5) * 0.00004;
             double noiseAlt = (mRandom.nextDouble() - 0.5) * 1.0;

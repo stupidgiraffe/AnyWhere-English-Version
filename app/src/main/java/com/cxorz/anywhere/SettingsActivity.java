@@ -11,10 +11,10 @@ public class SettingsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /* 为了启动欢迎页全屏，状态栏被设置了透明，但是会导致其他页面状态栏空白
-         * 这里设计如下：
-         * 1. 除了 WelcomeActivity 之外的所有 Activity 均继承 BaseActivity
-         * 2. WelcomeActivity 单独处理，其他 Activity 手动填充 StatusBar
+        /* To enable fullscreen welcome page, status bar was set transparent, but this causes blank status bar on other pages
+         * Design as follows:
+         * 1. All Activities except WelcomeActivity inherit BaseActivity
+         * 2. WelcomeActivity handles separately, other Activities manually fill StatusBar
          * */
         getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary, this.getTheme()));
 
@@ -27,7 +27,7 @@ public class SettingsActivity extends BaseActivity {
             .commit();
         }
 
-        /* 获取默认的顶部的标题栏（安卓称为 ActionBar）*/
+        /* Get default top title bar (Android calls it ActionBar) */
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);

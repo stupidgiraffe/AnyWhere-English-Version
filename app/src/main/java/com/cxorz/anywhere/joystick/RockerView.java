@@ -23,17 +23,17 @@ public class RockerView extends View {
     private Paint outerCirclePaint;
     private Paint innerCirclePaint;
     private Paint innerIconPaint;
-    /** 内圆中心x坐标 */
+    /** Inner circle center x coordinate */
     private float innerCenterX;
-    /** 内圆中心y坐标 */
+    /** Inner circle center y coordinate */
     private float innerCenterY;
-    /** view中心点x坐标 */
+    /** View center point x coordinate */
     private float viewCenterX;
-    /** view中心点y左边 */
+    /** View center point y coordinate */
     private float viewCenterY;
-    /** 外圆半径 */
+    /** Outer circle radius */
     private int outerCircleRadius;
-    /** 内圆半径 */
+    /** Inner circle radius */
     private int innerCircleRadius;
 
     private Bitmap mRockerBitmap = null;
@@ -83,7 +83,7 @@ public class RockerView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        if (dstRect == null) {      // 只需要测量一次即可
+        if (dstRect == null) {      // Only need to measure once
             int size = getMeasuredWidth();
             setMeasuredDimension(size, size);
 
@@ -106,7 +106,7 @@ public class RockerView extends View {
         super.onDraw(canvas);
 
         canvas.drawCircle(viewCenterX, viewCenterY, outerCircleRadius, outerCirclePaint);
-        /* 摇杆的控制部分由两部分组成 */
+        /* Joystick control part consists of two parts */
         canvas.drawCircle(innerCenterX, innerCenterY, innerCircleRadius, innerCirclePaint);
         canvas.drawBitmap(mRockerBitmap, srcRect, dstRect, innerIconPaint);
     }
@@ -126,7 +126,7 @@ public class RockerView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                /* 如果初始点击位置 不再内圆中,返回 false 将不再继续处理后续事件 */
+                /* If initial click position is not in inner circle, return false and do not process subsequent events */
                 if (event.getX() < innerCenterX - innerCircleRadius || event.getX() > innerCenterX + innerCircleRadius
                 || event.getY() < innerCenterY - innerCircleRadius || event.getY() > innerCenterY + innerCircleRadius)
                 {
@@ -155,16 +155,16 @@ public class RockerView extends View {
     }
 
     private void moveToPosition(float x, float y) {
-        float distance = (float) Math.sqrt(Math.pow(x-viewCenterX, 2) + Math.pow(y-viewCenterY, 2)); //触摸点与view中心距离
+        float distance = (float) Math.sqrt(Math.pow(x-viewCenterX, 2) + Math.pow(y-viewCenterY, 2)); // Distance from touch point to view center
 
         if (distance < outerCircleRadius-innerCircleRadius) {
-            //在自由域之内，触摸点实时作为内圆圆心
+            // Within free zone, touch point is the inner circle center in real time
             innerCenterX = x;
             innerCenterY = y;
         } else {
-            //在自由域之外，内圆圆心在触摸点与外圆圆心的线段上
-            int innerDistance = outerCircleRadius-innerCircleRadius;  //内圆圆心到中心点距离
-            //相似三角形的性质，两个相似三角形各边比例相等得到等式
+            // Outside free zone, inner circle center is on the line between touch point and outer circle center
+            int innerDistance = outerCircleRadius-innerCircleRadius;  // Distance from inner circle center to center point
+            // From property of similar triangles, all sides of similar triangles have equal ratio
             innerCenterX = (x-viewCenterX)*innerDistance/distance + viewCenterX;
             innerCenterY = (y-viewCenterY)*innerDistance/distance + viewCenterY;
         }
@@ -236,7 +236,7 @@ public class RockerView extends View {
 
     public interface RockerViewClickListener {
         /**
-         * 点击的角度信息
+         * Click angle info
          */
         void clickAngleInfo(boolean auto, double angle, double r);
     }
