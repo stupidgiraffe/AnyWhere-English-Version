@@ -129,7 +129,7 @@ public class GoUtils {
                 canMockPosition = true;
             }
 
-            // 模拟位置可用
+            // Mock location available
             if (canMockPosition) {
                 // remove test provider
                 locationManager.setTestProviderEnabled(LocationManager.GPS_PROVIDER, false);
@@ -172,7 +172,7 @@ public class GoUtils {
      */
     public static String getAppName(Context context) {
         PackageManager pm = context.getPackageManager();
-        // 获取包信息
+        // Get package information
         try {
             PackageInfo packageInfo = pm.getPackageInfo(context.getPackageName(), 0);
             ApplicationInfo applicationInfo = packageInfo.applicationInfo;
@@ -195,7 +195,7 @@ public class GoUtils {
         return sdf.format(new Date(Long.parseLong(seconds + "000")));
     }
 
-    // 提醒开启位置模拟的弹框
+    // Dialog to remind enabling mock location
     public static void showEnableMockLocationDialog(Context context) {
         new AlertDialog.Builder(context)
                 .setTitle("Enable Mock Location")// Dialog title
@@ -214,7 +214,7 @@ public class GoUtils {
                 .show();
     }
 
-    // 提醒开启悬浮窗的弹框
+    // Dialog to remind enabling floating window
     public static void showEnableFloatWindowDialog(Context context) {
         new AlertDialog.Builder(context)
                 .setTitle("Enable Floating Window")// Dialog title
@@ -229,7 +229,7 @@ public class GoUtils {
                         e.printStackTrace();
                     }
                 })
-                .setNegativeButton("取消", (dialog, which) -> {
+                .setNegativeButton("Cancel", (dialog, which) -> {
 
                 })
                 .show();
@@ -248,7 +248,7 @@ public class GoUtils {
                         e.printStackTrace();
                     }
                 })
-                .setNegativeButton("取消", (dialog, which) -> {
+                .setNegativeButton("Cancel", (dialog, which) -> {
 
                 })
                 .show();
@@ -265,7 +265,7 @@ public class GoUtils {
         toast.show();
     }
 
-    /* 计数器类 */
+    /* Counter class */
     public static class TimeCount extends CountDownTimer {
         private TimeCountListener mListener;
 

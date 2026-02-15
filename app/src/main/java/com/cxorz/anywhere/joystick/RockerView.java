@@ -83,7 +83,7 @@ public class RockerView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        if (dstRect == null) {      // 只需要测量一次即可
+        if (dstRect == null) {      // Only need to measure once
             int size = getMeasuredWidth();
             setMeasuredDimension(size, size);
 
@@ -155,16 +155,16 @@ public class RockerView extends View {
     }
 
     private void moveToPosition(float x, float y) {
-        float distance = (float) Math.sqrt(Math.pow(x-viewCenterX, 2) + Math.pow(y-viewCenterY, 2)); //触摸点与view中心距离
+        float distance = (float) Math.sqrt(Math.pow(x-viewCenterX, 2) + Math.pow(y-viewCenterY, 2)); //Distance between touch point and view center
 
         if (distance < outerCircleRadius-innerCircleRadius) {
-            //在自由域之内，触摸点实时作为内圆圆心
+            //Within free domain, touch point becomes inner circle center in real time
             innerCenterX = x;
             innerCenterY = y;
         } else {
-            //在自由域之外，内圆圆心在触摸点与外圆圆心的线段上
-            int innerDistance = outerCircleRadius-innerCircleRadius;  //内圆圆心到中心点距离
-            //相似三角形的性质，两个相似三角形各边比例相等得到等式
+            //Outside free domain, inner circle center is on the line between touch point and outer circle center
+            int innerDistance = outerCircleRadius-innerCircleRadius;  //Distance from inner circle center to center point
+            //Using the property of similar triangles, the ratio of corresponding sides is equal
             innerCenterX = (x-viewCenterX)*innerDistance/distance + viewCenterX;
             innerCenterY = (y-viewCenterY)*innerDistance/distance + viewCenterY;
         }

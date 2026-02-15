@@ -10,7 +10,7 @@ import java.io.File;
 
 public class ShareUtils {
     /**
-     * 返回uri
+     * Return URI
      */
     public static Uri getUriFromFile(Context context, File file) {
         String authority = context.getPackageName().concat(".fileProvider");
