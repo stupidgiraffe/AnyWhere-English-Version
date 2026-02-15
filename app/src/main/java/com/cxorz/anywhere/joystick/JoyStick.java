@@ -53,7 +53,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class JoyStick extends View {
-    private static final int DivGo = 1000;    /* 移动的时间间隔，单位 ms */
+    private static final int DivGo = 1000;    /* Movement time interval, unit: ms */
     private static final int WINDOW_TYPE_JOYSTICK = 0;
     private static final int WINDOW_TYPE_MAP = 1;
     private static final int WINDOW_TYPE_HISTORY = 2;
@@ -71,23 +71,23 @@ public class JoyStick extends View {
     private ImageButton btnBike;
     private JoyStickClickListener mListener;
 
-    // 移动
+    // Movement
     private View mJoystickLayout;
     private GoUtils.TimeCount mTimer;
     private boolean isMove;
-    private double mSpeed = 1.2;        /* 默认的速度，单位 m/s */
+    private double mSpeed = 1.2;        /* Default speed, unit: m/s */
     private double mAltitude = 5.0;
     private double mAngle = 0;
     private double mR = 0;
     private double disLng = 0;
     private double disLat = 0;
     private final SharedPreferences sharedPreferences;
-    /* 历史记录悬浮窗相关 */
+    /* History floating window related */
     private FrameLayout mHistoryLayout;
     private final List<Map<String, Object>> mAllRecord = new ArrayList<> ();
     private TextView noRecordText;
     private ListView mRecordListView;
-    /* 地图悬浮窗相关 */
+    /* Map floating window related */
         private FrameLayout mMapLayout;
         private MapView mMapView;
         private IMapController mMapController;
@@ -243,7 +243,7 @@ public class JoyStick extends View {
         mWindowParamCurrent = new WindowManager.LayoutParams();
         mWindowParamCurrent.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
         mWindowParamCurrent.format = PixelFormat.RGBA_8888;
-        mWindowParamCurrent.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE      // 不添加这个将导致游戏无法启动（MIUI12）,添加之后导致键盘无法显示
+        mWindowParamCurrent.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE      // Not adding this will prevent game from starting (MIUI12), adding it will prevent keyboard from showing
                 | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                 | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
         mWindowParamCurrent.gravity = Gravity.START | Gravity.TOP;
@@ -255,7 +255,7 @@ public class JoyStick extends View {
 
     @SuppressLint("InflateParams")
     private void initJoyStickView() {
-        /* 移动计时器 */
+        /* Movement timer */
         mTimer = new GoUtils.TimeCount(DivGo, DivGo);
         mTimer.setListener(new GoUtils.TimeCount.TimeCountListener() {
             @Override
@@ -265,14 +265,14 @@ public class JoyStick extends View {
 
             @Override
             public void onFinish() {
-                // 注意：这里的 x y 与 圆中角度的对应问题（以 X 轴正向为 0 度）且转换为 km
-                disLng = mSpeed * (double)(DivGo / 1000) * mR * Math.cos(mAngle * 2 * Math.PI / 360) / 1000;// 注意安卓中的三角函数使用的是弧度
-                disLat = mSpeed * (double)(DivGo / 1000) * mR * Math.sin(mAngle * 2 * Math.PI / 360) / 1000;// 注意安卓中的三角函数使用的是弧度
+                // Note: x y correspondence with angle in circle (0 degrees at positive X axis) and convert to km
+                disLng = mSpeed * (double)(DivGo / 1000) * mR * Math.cos(mAngle * 2 * Math.PI / 360) / 1000;// Note: trigonometric functions in Android use radians
+                disLat = mSpeed * (double)(DivGo / 1000) * mR * Math.sin(mAngle * 2 * Math.PI / 360) / 1000;// Note: trigonometric functions in Android use radians
                 mListener.onMoveInfo(mSpeed, disLng, disLat, 90.0F-mAngle);
                 mTimer.start();
             }
         });
-        // 获取参数区设置的速度
+        // Get speed setting from parameters
         try {
             mSpeed = Double.parseDouble(sharedPreferences.getString("setting_walk", mContext.getResources().getString(R.string.setting_walk_default)));
         } catch (NumberFormatException e) {  // GOOD: The exception is caught.
@@ -280,10 +280,10 @@ public class JoyStick extends View {
         }
         mJoystickLayout = inflater.inflate(R.layout.joystick, null);
 
-        /* 整个摇杆拖动事件处理 */
+        /* Handle joystick drag event */
         mJoystickLayout.setOnTouchListener(new JoyStickOnTouchListener());
 
-        /* 位置按钮点击事件处理 */
+        /* Handle position button click event */
         ImageButton btnPosition = mJoystickLayout.findViewById(R.id.joystick_position);
         btnPosition.setOnClickListener(v -> {
             if (mMapLayout.getParent() == null) {
@@ -292,7 +292,7 @@ public class JoyStick extends View {
             }
         });
 
-        /* 历史按钮点击事件处理 */
+        /* Handle history button click event */
         ImageButton btnHistory = mJoystickLayout.findViewById(R.id.joystick_history);
         btnHistory.setOnClickListener(v -> {
             if (mHistoryLayout.getParent() == null) {
@@ -301,7 +301,7 @@ public class JoyStick extends View {
             }
         });
 
-        /* 步行按键的点击处理 */
+        /* Handle walk button click */
         btnWalk = mJoystickLayout.findViewById(R.id.joystick_walk);
         btnWalk.setOnClickListener(v -> {
             if (!isWalk) {
@@ -318,10 +318,10 @@ public class JoyStick extends View {
                 }
             }
         });
-        /* 默认为步行 */
+        /* Default is walk */
         isWalk = true;
         btnWalk.setColorFilter(mContext.getResources().getColor(R.color.colorAccent, mContext.getTheme()));
-        /* 跑步按键的点击处理 */
+        /* Handle run button click */
         isRun = false;
         btnRun = mJoystickLayout.findViewById(R.id.joystick_run);
         btnRun.setOnClickListener(v -> {
@@ -339,7 +339,7 @@ public class JoyStick extends View {
                 }
             }
         });
-        /* 自行车按键的点击处理 */
+        /* Handle bike button click */
         isBike = false;
         btnBike = mJoystickLayout.findViewById(R.id.joystick_bike);
         btnBike.setOnClickListener(v -> {
@@ -357,15 +357,15 @@ public class JoyStick extends View {
                 }
             }
         });
-        /* 方向键点击处理 */
+        /* Handle direction key click */
         RockerView rckView = mJoystickLayout.findViewById(R.id.joystick_rocker);
         rckView.setListener(this::processDirection);
 
-        /* 方向键点击处理 */
+        /* Handle direction key click */
         ButtonView btnView = mJoystickLayout.findViewById(R.id.joystick_button);
         btnView.setListener(this::processDirection);
 
-        /* 这里用来决定摇杆类型 */
+        /* Determine joystick type here */
         if (sharedPreferences.getString("setting_joystick_type", "0").equals("0")) {
             rckView.setVisibility(VISIBLE);
             btnView.setVisibility(GONE);
@@ -390,9 +390,9 @@ public class JoyStick extends View {
             } else {
                 mTimer.cancel();
                 isMove = false;
-                // 注意：这里的 x y 与 圆中角度的对应问题（以 X 轴正向为 0 度）且转换为 km
-                disLng = mSpeed * (double)(DivGo / 1000) * mR * Math.cos(mAngle * 2 * Math.PI / 360) / 1000;// 注意安卓中的三角函数使用的是弧度
-                disLat = mSpeed * (double)(DivGo / 1000) * mR * Math.sin(mAngle * 2 * Math.PI / 360) / 1000;// 注意安卓中的三角函数使用的是弧度
+                // Note: x y correspondence with angle in circle (0 degrees at positive X axis) and convert to km
+                disLng = mSpeed * (double)(DivGo / 1000) * mR * Math.cos(mAngle * 2 * Math.PI / 360) / 1000;// Note: trigonometric functions in Android use radians
+                disLat = mSpeed * (double)(DivGo / 1000) * mR * Math.sin(mAngle * 2 * Math.PI / 360) / 1000;// Note: trigonometric functions in Android use radians
                 mListener.onMoveInfo(mSpeed, disLng, disLat, 90.0F-mAngle);
             }
         }
@@ -458,7 +458,7 @@ public class JoyStick extends View {
         mSearchView.setOnSearchClickListener(v -> {
             tips.setVisibility(GONE);
 
-            // 特殊处理：这里让搜索框获取焦点，以显示输入法
+            // Special handling: let search box get focus to display input method
             mWindowParamCurrent.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
             mWindowManager.updateViewLayout(mMapLayout, mWindowParamCurrent);
         });
@@ -466,13 +466,13 @@ public class JoyStick extends View {
             tips.setVisibility(VISIBLE);
             mSearchLayout.setVisibility(GONE);
 
-            // 关闭时清除焦点
+            // Clear focus when closing
             mWindowParamCurrent.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                     | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                     | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
             mWindowManager.updateViewLayout(mMapLayout, mWindowParamCurrent);
 
-            return false;       /* 这里必须返回false，否则需要自行处理搜索框的折叠 */
+            return false;       /* Must return false here, otherwise need to handle search box collapse manually */
         });
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -497,7 +497,7 @@ public class JoyStick extends View {
 
         ImageButton btnGo = mMapLayout.findViewById(R.id.btnGo);
         btnGo.setOnClickListener(v -> {
-            // 关闭时清除焦点
+            // Clear focus when closing
             mWindowParamCurrent.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                     | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                     | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
@@ -526,7 +526,7 @@ public class JoyStick extends View {
 
         ImageButton btnClose = mMapLayout.findViewById(R.id.map_close);
         btnClose.setOnClickListener(v -> {
-            // 关闭时清除焦点
+            // Clear focus when closing
             mWindowParamCurrent.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                     | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                     | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
@@ -667,29 +667,29 @@ public class JoyStick extends View {
         mSearchView.setOnSearchClickListener(v -> {
             tips.setVisibility(GONE);
 
-            // 特殊处理：这里让搜索框获取焦点，以显示输入法
+            // Special handling: let search box get focus to display input method
             mWindowParamCurrent.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
             mWindowManager.updateViewLayout(mHistoryLayout, mWindowParamCurrent);
         });
         mSearchView.setOnCloseListener(() -> {
             tips.setVisibility(VISIBLE);
 
-            // 关闭时清除焦点
+            // Clear focus when closing
             mWindowParamCurrent.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                     | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                     | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
             mWindowManager.updateViewLayout(mHistoryLayout, mWindowParamCurrent);
 
-            return false;       /* 这里必须返回false，否则需要自行处理搜索框的折叠 */
+            return false;       /* Must return false here, otherwise need to handle search box collapse manually */
         });
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {// 当点击搜索按钮时触发该方法
+            public boolean onQueryTextSubmit(String query) {// Triggered when search button is clicked
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {// 当搜索内容改变时触发该方法
+            public boolean onQueryTextChange(String newText) {// Triggered when search content changes
                 if (TextUtils.isEmpty(newText)) {
                     showHistory(mAllRecord);
                 } else {
@@ -715,7 +715,7 @@ public class JoyStick extends View {
         noRecordText = mHistoryLayout.findViewById(R.id.joystick_his_record_no_textview);
         mRecordListView = mHistoryLayout.findViewById(R.id.joystick_his_record_list_view);
         mRecordListView.setOnItemClickListener((adapterView, view, i, l) -> {
-            // 关闭时清除焦点
+            // Clear focus when closing
             mWindowParamCurrent.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                     | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                     | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
@@ -725,7 +725,7 @@ public class JoyStick extends View {
             mSearchView.onActionViewCollapsed();
             tips.setVisibility(VISIBLE);
 
-            // wgs84坐标
+            // wgs84 coordinates
             String wgs84LatLng = (String) ((TextView) view.findViewById(R.id.WGSLatLngText)).getText();
             wgs84LatLng = wgs84LatLng.substring(wgs84LatLng.indexOf('[') + 1, wgs84LatLng.indexOf(']'));
             String[] wgs84latLngStr = wgs84LatLng.split(" ");
@@ -734,7 +734,7 @@ public class JoyStick extends View {
 
             mListener.onPositionInfo(Double.parseDouble(wgs84Longitude), Double.parseDouble(wgs84Latitude), mAltitude);
 
-            // 注意这里在选择位置之后需要刷新地图
+            // Note: map needs to be refreshed after selecting location
             // Use WGS84 directly for OSM
             mCurMapLngLat = new GeoPoint(Double.parseDouble(wgs84Latitude), Double.parseDouble(wgs84Longitude));
 
@@ -747,7 +747,7 @@ public class JoyStick extends View {
 
         ImageButton btnClose = mHistoryLayout.findViewById(R.id.joystick_his_close);
         btnClose.setOnClickListener(v -> {
-            // 关闭时清除焦点
+            // Clear focus when closing
             mWindowParamCurrent.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                     | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                     | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
@@ -793,8 +793,8 @@ public class JoyStick extends View {
                 item.put(HistoryActivity.KEY_ID, Integer.toString(ID));
                 item.put(HistoryActivity.KEY_LOCATION, Location);
                 item.put(HistoryActivity.KEY_TIME, GoUtils.timeStamp2Date(Long.toString(TimeStamp)));
-                item.put(HistoryActivity.KEY_LNG_LAT_WGS, "[经度:" + doubleLongitude + " 纬度:" + doubleLatitude + "]");
-                item.put(HistoryActivity.KEY_LNG_LAT_CUSTOM, "[经度:" + doubleBDLongitude + " 纬度:" + doubleBDLatitude + "]");
+                item.put(HistoryActivity.KEY_LNG_LAT_WGS, "[Lng: " + doubleLongitude + " Lat: " + doubleLatitude + "]");
+                item.put(HistoryActivity.KEY_LNG_LAT_CUSTOM, "[Lng: " + doubleBDLongitude + " Lat: " + doubleBDLatitude + "]");
                 mAllRecord.add(item);
             }
             cursor.close();
@@ -817,7 +817,7 @@ public class JoyStick extends View {
                         mContext,
                         list,
                         R.layout.history_item,
-                        new String[]{HistoryActivity.KEY_ID, HistoryActivity.KEY_LOCATION, HistoryActivity.KEY_TIME, HistoryActivity.KEY_LNG_LAT_WGS, HistoryActivity.KEY_LNG_LAT_CUSTOM}, // 与下面数组元素要一一对应
+                        new String[]{HistoryActivity.KEY_ID, HistoryActivity.KEY_LOCATION, HistoryActivity.KEY_TIME, HistoryActivity.KEY_LNG_LAT_WGS, HistoryActivity.KEY_LNG_LAT_CUSTOM}, // Must correspond one-to-one with array elements below
                         new int[]{R.id.LocationID, R.id.LocationText, R.id.TimeText, R.id.WGSLatLngText, R.id.BDLatLngText});
                 mRecordListView.setAdapter(simAdapt);
             } catch (Exception e) {

@@ -1,61 +1,61 @@
 # AnyWhere
 
-**AnyWhere** 是一款轻量级的 Android 位置模拟工具，专为开发者调试 LBS 应用及用户测试地理位置功能而设计。
+**AnyWhere** is a lightweight Android location spoofing tool designed for developers to debug LBS applications and users to test geolocation features.
 
-## 主要功能
+## Key Features
 
-*   **现代 UI 设计**：基于 **Material Design 3** 设计规范，提供简洁、现代且富有活力的视觉体验。
-*   **暗黑模式**：深度适配系统深色主题。
-*   **精准模拟**：支持在地图上点选任意坐标进行模拟定位。
-*   **摇杆控制**：悬浮摇杆，支持模拟步行、跑步、驾车等不同速度的移动。
-*   **历史记录**：自动保存历史定位记录；进入默认定位到上次的位置。
-*   **IP 定位**：支持通过 IP 地址获取经纬度并快速填充，简化坐标输入流程。
-*   **真实朝向**：同步手机物理朝向，使模拟位置的方向随手机转动而实时变化。
-*   **Mock 隐藏**：集成 LSPosed 模块功能，隐藏模拟位置标记，绕过大部分应用的模拟位置检测。
+*   **Modern UI Design**: Based on **Material Design 3** specifications, providing a clean, modern, and vibrant visual experience.
+*   **Dark Mode**: Deeply adapted to the system dark theme.
+*   **Precise Simulation**: Support selecting any coordinates on the map for location spoofing.
+*   **Joystick Control**: Floating joystick supporting simulated movement at different speeds such as walking, running, and driving.
+*   **History Records**: Automatically saves historical location records; defaults to the last location on entry.
+*   **IP Location**: Support obtaining latitude and longitude through IP address for quick coordinate input.
+*   **True Orientation**: Syncs with the phone's physical orientation, making the simulated location direction change in real-time as the phone rotates.
+*   **Mock Hiding**: Integrates LSPosed module functionality to hide mock location markers, bypassing most apps' mock location detection.
 
-## 预览
+## Preview
 
-|           欢迎页面            |       地图主页        |       LSPosed 模块设置        |
+|           Welcome Page            |       Map Homepage        |       LSPosed Module Settings        |
 | :---------------------------: | :-------------------: | :---------------------------: |
 | ![Welcome](docs/welcome.webp) | ![Map](docs/map.webp) | ![LSPosed](docs/lsposed.webp) |
 
-## 使用前必读
+## Important Instructions Before Use
 
-为确保应用正常运行，请按以下步骤操作：
+To ensure the application runs properly, please follow these steps:
 
-1.  **开启开发者模式**：前往系统设置开启“开发者选项”。
-2.  **设置模拟应用**：进入“开发者选项” -> “选择模拟位置信息应用”，在列表中选中 **AnyWhere**。
-3.  **权限授予**：首次启动时，请授予应用必要的定位和悬浮窗权限。
-4. **LSPosed (可选)**：启用模块，勾选 “系统框架”、“你的目标应用”，以防止位置模拟检测
+1.  **Enable Developer Mode**: Go to system settings and enable "Developer Options".
+2.  **Set Mock Location App**: Enter "Developer Options" -> "Select mock location app", and select **AnyWhere** from the list.
+3.  **Grant Permissions**: On first launch, please grant the necessary location and overlay permissions.
+4. **LSPosed (Optional)**: Enable the module and check "System Framework" and "Your Target App" to prevent mock location detection
 
-## 免责声明
+## Disclaimer
 
-**请务必仔细阅读以下条款，下载、安装或使用本软件即表示您已阅读并同意本免责声明：**
+**Please read the following terms carefully. Downloading, installing, or using this software indicates that you have read and agree to this disclaimer:**
 
-1.  **用途限制**：本软件仅供**软件开发调试**、**功能测试**及**个人学习研究**使用。**严禁**将本软件用于任何违反法律法规、侵犯他人权益或违反第三方平台规则的行为（包括但不限于虚假考勤打卡、游戏作弊、网络欺诈等）。
-2.  **后果自负**：因用户违规使用本软件而产生的任何后果（包括但不限于账号封禁、服务中断、数据丢失、法律纠纷等），均由用户**自行承担**。开发者对用户的使用行为不承担任何直接或间接的法律责任或连带责任。
-3.  **无担保**：本软件按“现状”提供，不包含任何明示或暗示的保证。开发者不保证软件在所有设备或系统版本上的绝对稳定性、兼容性及准确性。
-4.  **隐私保护**：本软件承诺不收集、不存储、不上传用户的任何个人隐私数据或真实位置信息。
+1.  **Usage Restrictions**: This software is intended for **software development and debugging**, **functional testing**, and **personal learning and research** purposes only. It is **strictly prohibited** to use this software for any activities that violate laws and regulations, infringe on the rights of others, or violate third-party platform rules (including but not limited to fake attendance check-ins, game cheating, online fraud, etc.).
+2.  **Consequences at User's Own Risk**: Any consequences arising from the user's improper use of this software (including but not limited to account bans, service interruptions, data loss, legal disputes, etc.) shall be **borne by the user**. The developer bears no direct or indirect legal liability or joint liability for the user's actions.
+3.  **No Warranty**: This software is provided "as is" without any express or implied warranties. The developer does not guarantee the absolute stability, compatibility, or accuracy of the software on all devices or system versions.
+4.  **Privacy Protection**: This software commits to not collecting, storing, or uploading any user's personal privacy data or real location information.
 
-## 致谢
+## Acknowledgments
 
-本项目基于开源项目 [GoGoGo](https://github.com/ZCShou/GoGoGo) 进行二次开发。
+This project is based on the open-source project [GoGoGo](https://github.com/ZCShou/GoGoGo) with secondary development.
 
-我们在原项目的基础上进行了深度的精简与重构：
-- 移除了百度的专有地图 SDK，全面替换为开源的 **OpenStreetMap**。
-- 精简了冗余的 UI 和功能，提升了应用的启动速度和运行效率。
-- 重写了部分核心逻辑，以适应新的架构需求。
+We have conducted extensive streamlining and refactoring based on the original project:
+- Removed Baidu's proprietary map SDK and fully replaced it with the open-source **OpenStreetMap**.
+- Streamlined redundant UI and features, improving the application's startup speed and runtime efficiency.
+- Rewrote parts of the core logic to adapt to new architectural requirements.
 
-在此向原作者 [ZCShou](https://github.com/ZCShou) 及其贡献者致以诚挚的感谢，感谢其开源精神为社区带来的贡献。
+We extend our sincere thanks to the original author [ZCShou](https://github.com/ZCShou) and contributors for their open-source spirit and contributions to the community.
 
-## 开源协议 (License)
+## License
 
-本项目遵循 **GNU General Public License v3.0 (GPL-3.0)** 协议。
+This project follows the **GNU General Public License v3.0 (GPL-3.0)**.
 
 *   **AnyWhere** © 2026 Cxorz.
 *   Based on **GoGoGo** © ZCShou.
 
-您可以自由地复制、修改和分发本项目，但请务必遵守 GPL v3.0 协议的规定（包括保持开源、保留原作者版权声明等）。详细条款请参阅项目根目录下的 [LICENSE](LICENSE) 文件。
+You are free to copy, modify, and distribute this project, but you must comply with the GPL v3.0 license (including maintaining open source and retaining the original author's copyright notice, etc.). For detailed terms, please refer to the [LICENSE](LICENSE) file in the project root directory.
 
 ---
-*本项目仅供技术交流与学习使用，请勿用于非法用途。*
+*This project is for technical exchange and learning purposes only. Do not use it for illegal purposes.*

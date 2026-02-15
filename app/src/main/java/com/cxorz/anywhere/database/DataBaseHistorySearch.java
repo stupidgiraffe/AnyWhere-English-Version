@@ -18,9 +18,9 @@ public class DataBaseHistorySearch extends SQLiteOpenHelper {
     public static final String DB_COLUMN_LATITUDE_WGS84 = "DB_COLUMN_LATITUDE_WGS84";
     public static final String DB_COLUMN_LONGITUDE_CUSTOM = "DB_COLUMN_LONGITUDE_CUSTOM";
     public static final String DB_COLUMN_LATITUDE_CUSTOM = "DB_COLUMN_LATITUDE_CUSTOM";
-    // 搜索的关键字
+    // Search keyword
     public static final int DB_SEARCH_TYPE_KEY = 0;
-    // 搜索结果
+    // Search result
     public static final int DB_SEARCH_TYPE_RESULT = 1;
 
     private static final int DB_VERSION = 1;
@@ -49,7 +49,7 @@ public class DataBaseHistorySearch extends SQLiteOpenHelper {
 
     public static void saveHistorySearch(SQLiteDatabase sqLiteDatabase, ContentValues contentValues) {
         try {
-            // 先删除原来的记录，再插入新记录
+            // Delete old record first, then insert new record
             String searchKey = contentValues.get(DataBaseHistorySearch.DB_COLUMN_KEY).toString();
             sqLiteDatabase.delete(DataBaseHistorySearch.TABLE_NAME, DataBaseHistorySearch.DB_COLUMN_KEY + " = ?", new String[] {searchKey});
             sqLiteDatabase.insert(DataBaseHistorySearch.TABLE_NAME, null, contentValues);

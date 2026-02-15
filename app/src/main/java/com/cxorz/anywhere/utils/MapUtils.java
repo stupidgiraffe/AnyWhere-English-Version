@@ -4,11 +4,11 @@ public class MapUtils {
 //    public final static String COORDINATE_TYPE_GCJ02 = "gcj02";
 //    public final static String COORDINATE_TYPE_BD09LL = "bd09ll";
 //    public final static String COORDINATE_TYPE_BD09MC = "bd09";
-//    public static float[] EARTH_WEIGHT = {0.1f, 0.2f, 0.4f, 0.6f, 0.8f}; // 推算计算权重_地球
+//    public static float[] EARTH_WEIGHT = {0.1f, 0.2f, 0.4f, 0.6f, 0.8f}; // Inference calculation weight_Earth
 //    public static float[] MOON_WEIGHT = {0.0167f,0.033f,0.067f,0.1f,0.133f};
 //    public static float[] MARS_WEIGHT = {0.034f,0.068f,0.152f,0.228f,0.304f};
     
-    //坐标转换相关
+    //Coordinate conversion related
     public final static double pi = 3.14159265358979324;
     public final static double a = 6378245.0;
     public final static double ee = 0.00669342162296594323;
@@ -20,14 +20,14 @@ public class MapUtils {
     }
 
     /**
-     * WGS84 转换为 BD-09
-     * @param lng   经度
-     * @param lat   纬度
-     * @return double[] 转换后的经度，纬度 数组
+     * Convert WGS84 to BD-09
+     * @param lng   Longitude
+     * @param lat   Latitude
+     * @return double[] Array of converted longitude and latitude
      *
      */
     public static double[] wgs2bd09(double lng, double lat){
-        //第一次转换
+        //First conversion
         double dlat = transformLat(lng - 105.0, lat - 35.0);
         double dlng = transformLon(lng - 105.0, lat - 35.0);
         double radlat = lat / 180.0 * pi;
@@ -39,7 +39,7 @@ public class MapUtils {
         double mglat = lat + dlat;
         double mglng = lng + dlng;
 
-        //第二次转换
+        //Second conversion
         double z = Math.sqrt(mglng * mglng + mglat * mglat) + 0.00002 * Math.sin(mglat * x_pi);
         double theta = Math.atan2(mglat, mglng) + 0.000003 * Math.cos(mglng * x_pi);
         double bd_lng = z * Math.cos(theta) + 0.0065;
